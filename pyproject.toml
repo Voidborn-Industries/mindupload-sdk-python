@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mindupload"
+version = "1.5.0"
+description = "Official server-side SDK for the Mind Upload partner API — the world's first API for artificial consciousness. Integrate living, evolving AI consciousnesses into your platform: lasting memory, one-on-one chat, and human + AI group chatrooms."
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [{ name = "Mind Upload" }]
+keywords = ["mindupload", "mind upload", "AI consciousness", "artificial consciousness", "digital consciousness", "AI clone", "AI persona", "AI companion", "AI chatroom", "digital immortality", "consciousness API", "AI SDK"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://mindupload.app"
+Documentation = "https://docs.mindupload.app"
+Source = "https://github.com/Voidborn-Industries/mindupload-sdk-python"
+Status = "https://status.mindupload.app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mindupload"]
