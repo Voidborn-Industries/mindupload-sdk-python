@@ -10,6 +10,7 @@ import socket
 import unittest
 import urllib.error
 import urllib.request
+from unittest.mock import MagicMock, patch
 
 from mindupload import (
     APIError,
@@ -86,6 +87,170 @@ class RequestShapeTest(Base):
         with self.assertRaises(ValueError):
             MindUpload(partner_key="")
 
+    def test_wait_for_external_authorization_returns_exchanged_credentials(self):
+        self.respond({
+            "success": True,
+            "status": "exchanged",
+            "access_token": "access",
+            "refresh_token": "refresh",
+        })
+        mu = MindUpload(partner_key="pk_test")
+        result = mu.wait_for_external_authorization(
+            device_code="mindupload_external_device_test",
+            timeout=1,
+        )
+        self.assertEqual(result.access_token, "access")
+        self.assertEqual(
+            self.captured["body"]["device_code"],
+            "mindupload_external_device_test",
+        )
+
+    def test_authorization_polling_backs_off_and_honors_slow_down(self):
+        mu = MindUpload(partner_key="pk_test")
+        mu.exchange_external_authorization = MagicMock(side_effect=[
+            {"success": True, "status": "pending", "poll_interval": 5},
+            {"success": True, "status": "slow_down", "poll_interval": 5},
+            {"success": True, "status": "exchanged", "access_token": "access"},
+        ])
+        with patch("mindupload._operations.random.random", return_value=0.0), patch(
+            "mindupload._operations.time.sleep"
+        ) as sleep:
+            result = mu.wait_for_external_authorization(
+                device_code="mindupload_external_device_test",
+                timeout=60,
+            )
+
+        self.assertEqual(result["access_token"], "access")
+        self.assertEqual(
+            [call.args[0] for call in sleep.call_args_list],
+            [7.5, 12.5],
+        )
+
+    def test_authorization_polling_never_undercuts_server_interval(self):
+        mu = MindUpload(partner_key="pk_test")
+        mu.exchange_external_authorization = MagicMock(side_effect=[
+            {"success": True, "status": "pending", "poll_interval": 60},
+            {"success": True, "status": "slow_down", "poll_interval": 60},
+            {"success": True, "status": "exchanged", "access_token": "access"},
+        ])
+        with patch("mindupload._operations.random.random", return_value=0.0), patch(
+            "mindupload._operations.time.sleep"
+        ) as sleep:
+            mu.wait_for_external_authorization(
+                device_code="mindupload_external_device_test",
+                timeout=180,
+            )
+
+        self.assertEqual(
+            [call.args[0] for call in sleep.call_args_list],
+            [60.0, 60.0],
+        )
+
+    def test_invocation_wait_replays_processing_until_succeeded(self):
+        mu = MindUpload(partner_key="pk_test")
+        mu.invoke_external_clone = MagicMock(side_effect=[
+            # retry_after distinct from the 2.0 default so the assertion below
+            # actually proves the server-advised delay is honored.
+            {"success": True, "status": "processing", "retry_after_seconds": 5},
+            {"success": True, "status": "succeeded", "response_text": "hi there"},
+        ])
+        with patch("mindupload._operations.random.random", return_value=0.0), patch(
+            "mindupload._operations.time.sleep"
+        ) as sleep:
+            result = mu.wait_for_external_clone_invocation(
+                access_token="mindupload_external_grant_test",
+                installation_id="workspace-1",
+                external_subject="member-1",
+                clone_id="clone-1",
+                text="hello",
+                idempotency_key="event-1",
+                timeout=60,
+            )
+        self.assertEqual(result["status"], "succeeded")
+        self.assertEqual(result["response_text"], "hi there")
+        self.assertEqual(mu.invoke_external_clone.call_count, 2)
+        # Honored the server-advised retry_after (5s) before replaying.
+        self.assertEqual([call.args[0] for call in sleep.call_args_list], [5.0])
+
+    def test_invocation_wait_retries_through_timeout_and_gateway_fault(self):
+        mu = MindUpload(partner_key="pk_test")
+        mu.invoke_external_clone = MagicMock(side_effect=[
+            MindUploadConnectionError("timed out", operation="invoke_external_clone"),
+            APIError("gateway", status=504, operation="invoke_external_clone"),
+            {"success": True, "status": "succeeded", "response_text": "done"},
+        ])
+        with patch("mindupload._operations.random.random", return_value=0.0), patch(
+            "mindupload._operations.time.sleep"
+        ):
+            result = mu.wait_for_external_clone_invocation(
+                access_token="mindupload_external_grant_test",
+                installation_id="workspace-1",
+                external_subject="member-1",
+                clone_id="clone-1",
+                text="hello",
+                idempotency_key="event-2",
+                timeout=60,
+            )
+        self.assertEqual(result["status"], "succeeded")
+        self.assertEqual(mu.invoke_external_clone.call_count, 3)
+
+    def test_invocation_wait_surfaces_client_error_without_retrying(self):
+        mu = MindUpload(partner_key="pk_test")
+        mu.invoke_external_clone = MagicMock(side_effect=APIError(
+            "bad request", status=400, operation="invoke_external_clone",
+        ))
+        with self.assertRaises(APIError) as ctx:
+            mu.wait_for_external_clone_invocation(
+                access_token="mindupload_external_grant_test",
+                installation_id="workspace-1",
+                external_subject="member-1",
+                clone_id="clone-1",
+                text="hello",
+                idempotency_key="event-3",
+                timeout=60,
+            )
+        self.assertEqual(ctx.exception.status, 400)
+        self.assertEqual(mu.invoke_external_clone.call_count, 1)
+
+    def test_invocation_wait_does_not_retry_rate_limit(self):
+        mu = MindUpload(partner_key="pk_test")
+        mu.invoke_external_clone = MagicMock(side_effect=RateLimitError(
+            "slow down", status=429, operation="invoke_external_clone",
+        ))
+        with self.assertRaises(RateLimitError):
+            mu.wait_for_external_clone_invocation(
+                access_token="mindupload_external_grant_test",
+                installation_id="workspace-1",
+                external_subject="member-1",
+                clone_id="clone-1",
+                text="hello",
+                idempotency_key="event-4",
+                timeout=60,
+            )
+        # A 429 is surfaced immediately, never retried into an infinite loop.
+        self.assertEqual(mu.invoke_external_clone.call_count, 1)
+
+    def test_invocation_wait_propagates_failed_receipt(self):
+        mu = MindUpload(partner_key="pk_test")
+        # A failed receipt surfaces as a logical failure (base MindUploadError,
+        # not APIError), so it must propagate as terminal, not be replayed.
+        mu.invoke_external_clone = MagicMock(side_effect=MindUploadError(
+            "the external clone invocation failed and will not be retried",
+            operation="invoke_external_clone",
+        ))
+        with self.assertRaises(MindUploadError) as ctx:
+            mu.wait_for_external_clone_invocation(
+                access_token="mindupload_external_grant_test",
+                installation_id="workspace-1",
+                external_subject="member-1",
+                clone_id="clone-1",
+                text="hello",
+                idempotency_key="event-5",
+                timeout=60,
+            )
+        self.assertNotIsInstance(ctx.exception, APIError)
+        self.assertEqual(mu.invoke_external_clone.call_count, 1)
+
 
 class ErrorMappingTest(Base):
     def test_logical_failure_raises_mindupload_error(self):
@@ -142,7 +307,7 @@ class ErrorMappingTest(Base):
         self.assertEqual(ctx.exception.status, 500)
         self.assertEqual(calls["n"], 1)  # 5xx is NOT retried (non-idempotent POST)
 
-    def test_503_is_retried(self):
+    def test_503_is_not_retried(self):
         calls = {"n": 0}
 
         def responder():
@@ -154,7 +319,7 @@ class ErrorMappingTest(Base):
         with self.assertRaises(APIError) as ctx:
             mu.rag(username="a")
         self.assertEqual(ctx.exception.status, 503)
-        self.assertEqual(calls["n"], 2)  # 503 backpressure IS retried
+        self.assertEqual(calls["n"], 1)
 
     def test_network_error_is_connection_error_and_not_retried(self):
         calls = {"n": 0}

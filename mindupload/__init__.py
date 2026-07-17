@@ -17,11 +17,12 @@ from ._errors import (
     MindUploadError,
     RateLimitError,
 )
-from ._operations import MindUpload
+from ._operations import ExternalAuthorizationStatus, MindUpload
 from ._version import __version__
 
 __all__ = [
     "MindUpload",
+    "ExternalAuthorizationStatus",
     "Result",
     "MindUploadError",
     "APIError",

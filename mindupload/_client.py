@@ -23,7 +23,7 @@ _AUTH_HEADER = "X-Partner-Key"
 # Only server backpressure is retried. Operations are non-idempotent POSTs (rag
 # spends credits, create_* mutate), so 5xx / network / timeout failures are
 # surfaced immediately rather than risking a duplicate side effect.
-_RETRY_STATUSES = frozenset({429, 503})
+_RETRY_STATUSES = frozenset({429})
 
 
 class Result(dict):
