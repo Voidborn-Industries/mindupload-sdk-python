@@ -7,7 +7,7 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.9.6-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.10.0-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -123,7 +123,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 40 operations, grouped by area:
+All 44 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -159,7 +159,9 @@ All 40 operations, grouped by area:
 | `create_chatroom_message(...)` | Send a message to a chatroom. |
 | `get_chatroom_membership(...)` | List the members of a chatroom the user belongs to. |
 | `get_chatroom_messages(...)` | Fetch messages from a chatroom the user belongs to. |
+| `get_chatroom_messages_around(...)` | Fetch a window of chatroom messages around one message id (for jump-to). |
 | `get_chatrooms(...)` | List the chatrooms the user belongs to. |
+| `search_chatroom_messages(...)` | Find messages in a chatroom by keyword, date, media type, and/or sender. |
 | `translate_chatroom_message(...)` | Translate a text chatroom message into the viewer language. |
 
 ### Conversation
@@ -167,7 +169,9 @@ All 40 operations, grouped by area:
 | Method | Description |
 | --- | --- |
 | `get_chat(...)` | Fetch the one-on-one conversation history with an AI consciousness. |
+| `get_chat_around(...)` | Fetch a window of one-on-one turns around one chat id (for jump-to). |
 | `rag(...)` | Send a message to an AI consciousness and receive its reply. |
+| `search_chats(...)` | Find turns in a one-on-one AI conversation by keyword, date, media type, and/or Human/AI side. |
 | `trigger_social(...)` | Have an AI consciousness proactively join the conversation in a chatroom. |
 
 ### External Authorization
