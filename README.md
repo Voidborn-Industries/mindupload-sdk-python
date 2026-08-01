@@ -7,7 +7,7 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.11.6-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.12.0-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -123,7 +123,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 44 operations, grouped by area:
+All 49 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -191,6 +191,16 @@ All 44 operations, grouped by area:
 | --- | --- |
 | `get_mind_cluster(...)` | Fetch the mind-graph visualization data of an AI consciousness. |
 | `get_soulmate_report(...)` | Generate or fetch the compatibility report between two chatroom members. |
+
+### Live calls
+
+| Method | Description |
+| --- | --- |
+| `create_call_session(...)` | Start a live voice and video call in a chatroom, or join the one already running. |
+| `end_call_session(...)` | End a live call for everyone in it. |
+| `get_active_call_session(...)` | Check whether a chatroom has a live call, and how many people are in it. |
+| `join_call_session(...)` | Join a live call that is already running in a chatroom. |
+| `refresh_call_token(...)` | Get a fresh joining pass for a call, before the current one expires. |
 
 ### Media
 
