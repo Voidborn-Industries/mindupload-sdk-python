@@ -7,7 +7,7 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.12.2-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.13.0-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -123,7 +123,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 51 operations, grouped by area:
+All 52 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -216,6 +216,7 @@ All 51 operations, grouped by area:
 | `request_upload_url(...)` | Request an upload slot and a signed viewing link for a media attachment. |
 | `sign_upload_part(...)` | Get the signed link for one part of a multipart upload. |
 | `sign_upload_parts_batch(...)` | Get signed links for several parts of a multipart upload at once. |
+| `start_media_analysis(...)` | Begin analysing an uploaded or linked attachment so its description is ready before the message is sent. |
 
 ### Memories
 
