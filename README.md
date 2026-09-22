@@ -7,7 +7,7 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.13.1-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.14.0-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -123,7 +123,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 52 operations, grouped by area:
+All 56 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -232,6 +232,15 @@ All 52 operations, grouped by area:
 | `get_transaction_history(...)` | List the user's Rabbit balance history (top-ups, spending, earnings, withdrawals, tax), newest first, filterable by category and paged with a cursor. |
 | `get_user(...)` | Fetch the signed-in user's profile. |
 | `update_user(...)` | Update the signed-in user's profile. |
+
+### Voice Interviews
+
+| Method | Description |
+| --- | --- |
+| `advance_voice_interview(...)` | Accept, edit, skip, re-record or abandon the question the user is on, and receive the next one. |
+| `generate_voice_interview_report(...)` | Write a finished interview up as prose, in first, second or third person. |
+| `start_voice_interview(...)` | Begin a spoken interview with one of your end-users, or hand back one they have not finished with. |
+| `transcribe_voice_interview_answer(...)` | Turn one recorded spoken answer into text for the user to check before it is accepted. |
 
 ## Other SDKs
 
