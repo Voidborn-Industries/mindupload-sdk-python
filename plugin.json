@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mindupload",
+  "version": "1.15.12",
+  "description": "Evidence-based scrutiny for completed agent work, with optional personal consciousness review.",
+  "author": {"name": "Mind Upload"},
+  "homepage": "https://docs.mindupload.app/mcp",
+  "repository": "https://github.com/Voidborn-Industries/mindupload-sdk-python",
+  "license": "MIT",
+  "keywords": ["mcp", "agent", "review", "scrutiny", "verification", "mindupload"]
+}

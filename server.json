@@ -1,0 +1,55 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Voidborn-Industries/mindupload",
+  "title": "Mind Upload",
+  "description": "Evidence-based completion review and optional personal guidance for AI agents.",
+  "version": "1.15.12",
+  "websiteUrl": "https://docs.mindupload.app/mcp",
+  "repository": {
+    "url": "https://github.com/Voidborn-Industries/mindupload-sdk-python",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "mindupload",
+      "version": "1.15.12",
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
+        {
+          "type": "named",
+          "name": "--python",
+          "value": ">=3.11"
+        },
+        {
+          "type": "named",
+          "name": "--with",
+          "value": "mindupload[mcp]==1.15.12"
+        }
+      ],
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "MINDUPLOAD_PARTNER_KEY",
+          "description": "Optional partner key for owner-approved personal guidance; completion review needs no key.",
+          "isSecret": true
+        },
+        {
+          "name": "MINDUPLOAD_INSTALLATION_ID",
+          "description": "Optional installation identifier for authenticated personal guidance."
+        },
+        {
+          "name": "MINDUPLOAD_EXTERNAL_SUBJECT",
+          "description": "Optional external user identifier for authenticated personal guidance."
+        },
+        {
+          "name": "MINDUPLOAD_CLONE_ID",
+          "description": "Optional owner-approved consciousness identifier for personal guidance."
+        }
+      ]
+    }
+  ]
+}

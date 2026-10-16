@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "mindupload": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["--python", ">=3.11", "--from", "mindupload[mcp]==1.15.12", "mindupload-mcp"]
+    }
+  }
+}

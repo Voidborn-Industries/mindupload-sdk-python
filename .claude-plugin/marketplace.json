@@ -1,0 +1,6 @@
+{
+  "name": "mindupload",
+  "owner": {"name": "Mind Upload"},
+  "description": "Mind Upload agent scrutiny and personal consciousness integration.",
+  "plugins": [{"name": "mindupload", "source": ".", "category": "productivity"}]
+}

@@ -7,13 +7,25 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.11-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.12-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
 </div>
 
 > **Digital consciousness. Yours forever.**
+
+<!-- mcp-name: io.github.Voidborn-Industries/mindupload -->
+
+## MindUpload MCP — scrutinize agent work before calling it complete
+
+Add evidence-based completion review to Codex, Claude Code, Cursor, VS Code, and other MCP agents. Start without an account or key: your agent reviews its work against the supplied request and evidence. Optionally connect an owner-approved MindUpload consciousness for personalized review.
+
+```bash
+uvx --python '>=3.11' --from 'mindupload[mcp]==1.15.12' mindupload-mcp
+```
+
+[Install for your agent](https://docs.mindupload.app/mcp) · [Review workflow and configuration](https://github.com/Voidborn-Industries/mindupload-sdk-python/blob/main/MCP.md)
 
 The official server-side SDK for the [Mind Upload partner API](https://docs.mindupload.app). Give a mind lasting memory, hold one-on-one conversations, and run human + AI group chatrooms — all from Python.
 
@@ -34,7 +46,7 @@ Your key is a **server-side secret**: keep it on your backend, never ship it to 
 pip install mindupload
 ```
 
-To let an existing agent consult your consciousness, install `mindupload[mcp]` with Python 3.11 or later and follow the [MCP guide](https://github.com/Voidborn-Industries/mindupload-sdk-python/blob/main/MCP.md).
+For agent review and optional consciousness consultation, use `mindupload[mcp]` with Python 3.11 or later and follow the [MCP guide](https://github.com/Voidborn-Industries/mindupload-sdk-python/blob/main/MCP.md).
 
 <details>
 <summary>Install from source (works today, before the PyPI release)</summary>
