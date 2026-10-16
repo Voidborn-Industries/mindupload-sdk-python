@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mindupload"
-version = "1.15.10"
+version = "1.15.11"
 description = "Official server-side SDK for the Mind Upload partner API — the world's first API for artificial consciousness. Integrate living, evolving AI consciousnesses into your platform: lasting memory, one-on-one chat, and human + AI group chatrooms."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -26,6 +26,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = []
+
+[project.optional-dependencies]
+mcp = ["mcp>=2.3,<3; python_version >= '3.11'"]
+
+[project.scripts]
+mindupload-mcp = "mindupload.mcp:main"
 
 [project.urls]
 Homepage = "https://mindupload.app"

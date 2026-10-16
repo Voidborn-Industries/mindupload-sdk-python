@@ -164,11 +164,15 @@ class RequestShapeTest(Base):
                 clone_id="clone-1",
                 text="hello",
                 idempotency_key="event-1",
+                conversation_id="task-1",
                 timeout=60,
             )
         self.assertEqual(result["status"], "succeeded")
         self.assertEqual(result["response_text"], "hi there")
         self.assertEqual(mu.invoke_external_clone.call_count, 2)
+        # Every replay stays in its original task history; no additional API call is needed.
+        for invocation in mu.invoke_external_clone.call_args_list:
+            self.assertEqual(invocation.kwargs["conversation_id"], "task-1")
         # Honored the server-advised retry_after (5s) before replaying.
         self.assertEqual([call.args[0] for call in sleep.call_args_list], [5.0])
 
