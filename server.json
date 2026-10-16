@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Voidborn-Industries/mindupload",
   "title": "Mind Upload",
-  "description": "Evidence-based completion review and optional personal guidance for AI agents.",
-  "version": "1.15.12",
+  "description": "AI meta harness: your Mind Upload consciousness directs agents and scrutinizes completed work.",
+  "version": "1.15.13",
   "websiteUrl": "https://docs.mindupload.app/mcp",
   "repository": {
     "url": "https://github.com/Voidborn-Industries/mindupload-sdk-python",
@@ -11,10 +11,39 @@
   },
   "packages": [
     {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "mindupload",
+      "version": "1.15.13",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "MINDUPLOAD_PARTNER_KEY",
+          "description": "Private partner key required for consciousness direction and work review; installation can start without it.",
+          "isSecret": true
+        },
+        {
+          "name": "MINDUPLOAD_INSTALLATION_ID",
+          "description": "Stable installation identifier required for consciousness direction and work review."
+        },
+        {
+          "name": "MINDUPLOAD_EXTERNAL_SUBJECT",
+          "description": "Stable user identifier required to link an owner-approved consciousness."
+        },
+        {
+          "name": "MINDUPLOAD_CLONE_ID",
+          "description": "Optional owner-approved consciousness identifier for personal guidance."
+        }
+      ]
+    },
+    {
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "mindupload",
-      "version": "1.15.12",
+      "version": "1.15.13",
       "runtimeHint": "uvx",
       "runtimeArguments": [
         {
@@ -25,7 +54,7 @@
         {
           "type": "named",
           "name": "--with",
-          "value": "mindupload[mcp]==1.15.12"
+          "value": "mindupload[mcp]==1.15.13"
         }
       ],
       "transport": {
@@ -34,16 +63,16 @@
       "environmentVariables": [
         {
           "name": "MINDUPLOAD_PARTNER_KEY",
-          "description": "Optional partner key for owner-approved personal guidance; completion review needs no key.",
+          "description": "Private partner key required for consciousness direction and work review; installation can start without it.",
           "isSecret": true
         },
         {
           "name": "MINDUPLOAD_INSTALLATION_ID",
-          "description": "Optional installation identifier for authenticated personal guidance."
+          "description": "Stable installation identifier required for consciousness direction and work review."
         },
         {
           "name": "MINDUPLOAD_EXTERNAL_SUBJECT",
-          "description": "Optional external user identifier for authenticated personal guidance."
+          "description": "Stable user identifier required to link an owner-approved consciousness."
         },
         {
           "name": "MINDUPLOAD_CLONE_ID",

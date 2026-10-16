@@ -3,8 +3,8 @@
   "mcpServers": {
     "mindupload": {
       "type": "stdio",
-      "command": "uvx",
-      "args": ["--python", ">=3.11", "--from", "mindupload[mcp]==1.15.12", "mindupload-mcp"]
+      "command": "npx",
+      "args": ["--yes", "--package", "mindupload@1.15.13", "mindupload-mcp"]
     }
   }
 }

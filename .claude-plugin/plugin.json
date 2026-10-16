@@ -1,12 +1,12 @@
 {
   "name": "mindupload",
   "displayName": "Mind Upload",
-  "version": "1.15.12",
-  "description": "Evidence-based scrutiny for completed agent work, with optional personal consciousness review.",
+  "version": "1.15.13",
+  "description": "AI meta harness: your Mind Upload consciousness directs agents and scrutinizes completed work.",
   "author": {"name": "Mind Upload"},
   "homepage": "https://docs.mindupload.app/mcp",
   "repository": "https://github.com/Voidborn-Industries/mindupload-sdk-python",
   "license": "MIT",
-  "keywords": ["mcp", "agent", "review", "scrutiny", "verification", "mindupload"],
+  "keywords": ["mcp", "agent", "meta harness", "review", "scrutiny", "verification", "mindupload"],
   "mcpServers": "./mcp.json"
 }

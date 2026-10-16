@@ -1,6 +1,6 @@
 {
   "name": "mindupload",
   "owner": {"name": "Mind Upload"},
-  "description": "Mind Upload agent scrutiny and personal consciousness integration.",
+  "description": "AI meta harness: your Mind Upload consciousness directs agents and scrutinizes completed work.",
   "plugins": [{"name": "mindupload", "source": ".", "category": "productivity"}]
 }
