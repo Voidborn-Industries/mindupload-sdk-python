@@ -7,7 +7,7 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.16-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.17-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -23,7 +23,7 @@ An AI meta harness lets your Mind Upload consciousness direct Codex, Claude Code
 MCP is language agnostic: your agent and project can use any language. Choose the Node.js server below or the Python alternative in the setup guide.
 
 ```bash
-npx --yes --package mindupload@1.15.16 mindupload-mcp
+npx --yes --package mindupload@1.15.17 mindupload-mcp
 ```
 
 [Install for your agent](https://docs.mindupload.app/mcp) · [Review workflow and configuration](https://github.com/Voidborn-Industries/mindupload-sdk-python/blob/main/MCP.md)
@@ -138,7 +138,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 56 operations, grouped by area:
+All 64 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -193,11 +193,19 @@ All 56 operations, grouped by area:
 
 | Method | Description |
 | --- | --- |
+| `cancel_external_media_upload(...)` | Cancel one controlled upload through the existing media lifecycle. |
+| `consolidate_external_conversation(...)` | Prepare a verified memory from an explicitly selected owner conversation. |
 | `create_external_authorization_request(...)` | Start passwordless grant issuance for an external identity and installation. |
 | `exchange_external_authorization(...)` | Poll owner consent and exchange an approval for a clone-scoped grant token. |
+| `get_external_media_analysis(...)` | Read the current owned media analysis without restarting generation. |
+| `get_external_media_policy(...)` | Read current native media limits and owner quota without starting work. |
+| `get_external_quarantined_texts(...)` | List pending memories of the owner's granted AI consciousness. |
 | `inspect_external_authorization(...)` | Inspect the scopes, clone resources, expiry, and revocation state of a grant token. |
 | `invoke_external_clone(...)` | Send one idempotent text event to an owner-approved AI consciousness. |
 | `refresh_external_authorization(...)` | Refresh a short-lived clone-invocation access token. |
+| `request_external_media_upload(...)` | Authorize one exact media upload to the owner’s granted AI consciousness. |
+| `review_external_quarantined_text(...)` | Edit, approve or reject the displayed revision of one pending memory. |
+| `start_external_media_analysis(...)` | Explicitly describe one completed controlled upload. |
 | `upload_external_mind_data(...)` | Upload mind data (text and media) into the owner's own AI consciousness. |
 
 ### Insights
