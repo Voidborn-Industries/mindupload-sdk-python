@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mindupload"
-version = "1.15.14"
+version = "1.15.15"
 description = "Official server-side SDK for the Mind Upload partner API — the world's first API for artificial consciousness. Integrate living, evolving AI consciousnesses into your platform: lasting memory, one-on-one chat, and human + AI group chatrooms."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [{ name = "Mind Upload" }]
-keywords = ["mindupload", "mind upload", "AI consciousness", "artificial consciousness", "digital consciousness", "AI clone", "AI persona", "AI companion", "AI chatroom", "digital immortality", "consciousness API", "AI SDK", "AI meta harness", "MCP", "agent review", "code review", "model context protocol"]
+keywords = ["mindupload", "mind upload", "AI consciousness", "artificial consciousness", "digital consciousness", "AI clone", "AI persona", "AI companion", "AI chatroom", "digital immortality", "consciousness API", "AI SDK", "AI meta harness", "mcp", "mcp-server", "model-context-protocol", "codex", "claude-code", "cursor", "vscode", "agent-review", "code-review", "ai-meta-harness", "multimodal", "ai-agent"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",

@@ -1,6 +1,6 @@
 {
   "name": "mindupload",
   "owner": {"name": "Mind Upload"},
-  "description": "AI meta harness: your Mind Upload consciousness directs agents and scrutinizes completed work.",
+  "description": "AI meta harness for Codex, Claude Code, Cursor and VS Code: direction and completed-work review.",
   "plugins": [{"name": "mindupload", "source": ".", "category": "productivity"}]
 }

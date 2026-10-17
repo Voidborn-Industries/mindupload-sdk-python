@@ -1,8 +1,8 @@
 {
   "name": "mindupload",
   "displayName": "Mind Upload",
-  "version": "1.15.14",
-  "description": "AI meta harness: your Mind Upload consciousness directs agents and scrutinizes completed work.",
+  "version": "1.15.15",
+  "description": "AI meta harness for Codex, Claude Code, Cursor and VS Code: direction and completed-work review.",
   "author": {"name": "Mind Upload"},
   "homepage": "https://docs.mindupload.app/mcp",
   "repository": "https://github.com/Voidborn-Industries/mindupload-sdk-python",
