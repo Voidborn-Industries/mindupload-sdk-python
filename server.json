@@ -3,7 +3,7 @@
   "name": "io.github.Voidborn-Industries/mindupload",
   "title": "Mind Upload",
   "description": "AI meta harness for Codex, Claude Code, Cursor and VS Code: direction and completed-work review.",
-  "version": "1.15.15",
+  "version": "1.15.16",
   "websiteUrl": "https://docs.mindupload.app/mcp",
   "repository": {
     "url": "https://github.com/Voidborn-Industries/mindupload-sdk-python",
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "mindupload",
-      "version": "1.15.15",
+      "version": "1.15.16",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -43,7 +43,7 @@
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "mindupload",
-      "version": "1.15.15",
+      "version": "1.15.16",
       "runtimeHint": "uvx",
       "runtimeArguments": [
         {
@@ -54,7 +54,7 @@
         {
           "type": "named",
           "name": "--with",
-          "value": "mindupload[mcp]==1.15.15"
+          "value": "mindupload[mcp]==1.15.16"
         }
       ],
       "transport": {
