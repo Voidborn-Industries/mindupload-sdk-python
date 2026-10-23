@@ -38,7 +38,7 @@ uses Python 3.11 or later. Both expose the same tools and owner consent flow.
 With [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.18 mindupload-mcp
+npx --yes --package mindupload@1.15.19 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; an interactive terminal
@@ -58,7 +58,7 @@ it does not imply listing in the universal public directory. For configuration
 without the plugin:
 
 ```sh
-codex mcp add mindupload -- npx --yes --package mindupload@1.15.18 mindupload-mcp
+codex mcp add mindupload -- npx --yes --package mindupload@1.15.19 mindupload-mcp
 ```
 
 ### Claude Code plugin
@@ -82,7 +82,7 @@ configuration uses `mcpServers`, merge the following entry into that object:
   "mcpServers": {
     "mindupload": {
       "command": "npx",
-      "args": ["--yes", "--package", "mindupload@1.15.18", "mindupload-mcp"]
+      "args": ["--yes", "--package", "mindupload@1.15.19", "mindupload-mcp"]
     }
   }
 }
@@ -104,7 +104,7 @@ or merge this entry into your workspace's `.vscode/mcp.json`:
     "mindupload": {
       "type": "stdio",
       "command": "npx",
-      "args": ["--yes", "--package", "mindupload@1.15.18", "mindupload-mcp"]
+      "args": ["--yes", "--package", "mindupload@1.15.19", "mindupload-mcp"]
     }
   }
 }
@@ -121,7 +121,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.18" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.19" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -129,7 +129,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.18"
+python -m pip install "mindupload[mcp]==1.15.19"
 python -m mindupload.mcp
 ```
 
