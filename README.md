@@ -7,7 +7,7 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.19-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.20-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -23,7 +23,7 @@ An AI meta harness lets your Mind Upload consciousness direct Codex, Claude Code
 MCP is language agnostic: your agent and project can use any language. Choose the Node.js server below or the Python alternative in the setup guide.
 
 ```bash
-npx --yes --package mindupload@1.15.19 mindupload-mcp
+npx --yes --package mindupload@1.15.20 mindupload-mcp
 ```
 
 [Install for your agent](https://docs.mindupload.app/mcp) · [Review workflow and configuration](https://github.com/Voidborn-Industries/mindupload-sdk-python/blob/main/MCP.md)
@@ -138,7 +138,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 64 operations, grouped by area:
+All 67 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -146,6 +146,8 @@ All 64 operations, grouped by area:
 | Method | Description |
 | --- | --- |
 | `create_clone(...)` | Create a new AI consciousness for the user. |
+| `design_clone_voice(...)` | Change an AI consciousness's voice by trying a new one. |
+| `get_clone_voice(...)` | Read the voice an AI consciousness speaks one language in, and hear it. |
 | `get_clones(...)` | List the user's AI consciousnesses. |
 | `update_clone(...)` | Update an AI consciousness's profile. |
 
@@ -187,6 +189,7 @@ All 64 operations, grouped by area:
 | `get_chat_around(...)` | Fetch a window of one-on-one turns around one chat id (for jump-to). |
 | `rag(...)` | Send a message to an AI consciousness and receive its reply. |
 | `search_chats(...)` | Find turns in a one-on-one AI conversation by keyword, date, media type, and/or Human/AI side. |
+| `speak_message(...)` | Hear one part of an AI consciousness's message in its own voice. |
 | `trigger_social(...)` | Have an AI consciousness proactively join the conversation in a chatroom. |
 
 ### External Authorization
