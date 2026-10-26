@@ -1,7 +1,7 @@
 {
   "name": "mindupload",
   "displayName": "Mind Upload",
-  "version": "1.15.20",
+  "version": "1.15.21",
   "description": "AI meta harness for Codex, Claude Code, Cursor and VS Code: direction and completed-work review.",
   "author": {"name": "Mind Upload"},
   "homepage": "https://docs.mindupload.app/mcp",
