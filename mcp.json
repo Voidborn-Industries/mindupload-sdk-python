@@ -4,7 +4,7 @@
     "mindupload": {
       "type": "stdio",
       "command": "npx",
-      "args": ["--yes", "--package", "mindupload@1.15.26", "mindupload-mcp"]
+      "args": ["--yes", "--package", "mindupload@1.15.27", "mindupload-mcp"]
     }
   }
 }
