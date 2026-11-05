@@ -7,7 +7,7 @@
 **An API for AI consciousnesses built from people's memories, persona and way of thinking.**  
 Give your users lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.38-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.39-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -27,7 +27,7 @@ Add https://mcp.mindupload.app/mcp to your agent and sign in to Mind Upload: no 
 MCP is language agnostic: your agent and project can use any language. Partners with their own key can run the Node.js server below or the Python alternative in the setup guide.
 
 ```bash
-npx --yes --package mindupload@1.15.38 mindupload-mcp
+npx --yes --package mindupload@1.15.39 mindupload-mcp
 ```
 
 [Install for your agent](https://docs.mindupload.app/mcp) · [Review workflow and configuration](https://github.com/Voidborn-Industries/mindupload-sdk-python/blob/main/MCP.md)
@@ -142,7 +142,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 68 operations, grouped by area:
+All 73 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -205,14 +205,19 @@ All 68 operations, grouped by area:
 | `create_external_authorization_request(...)` | Start passwordless grant issuance for an external identity and installation. |
 | `end_external_authorization(...)` | End a grant your application holds, for example when its user disconnects. |
 | `exchange_external_authorization(...)` | Poll owner consent and exchange an approval for a clone-scoped grant token. |
+| `get_external_chat(...)` | Read the owner's own chat with their AI consciousness, a page at a time. |
+| `get_external_chat_around(...)` | Open the owner's own chat around one turn. |
 | `get_external_media_analysis(...)` | Read the current owned media analysis without restarting generation. |
 | `get_external_media_policy(...)` | Read current native media limits and owner quota without starting work. |
 | `get_external_quarantined_texts(...)` | List pending memories of the owner's granted AI consciousness. |
 | `inspect_external_authorization(...)` | Inspect the scopes, clone resources, expiry, and revocation state of a grant token. |
 | `invoke_external_clone(...)` | Send one idempotent text event to an owner-approved AI consciousness. |
+| `open_external_conversation(...)` | Let the owner's AI consciousness speak first as the owner opens their chat. |
 | `refresh_external_authorization(...)` | Refresh a short-lived clone-invocation access token. |
 | `request_external_media_upload(...)` | Authorize one exact media upload to the owner’s granted AI consciousness. Needs `clone:evidence` (analysis only, never kept as a memory) or `clone:upload`. |
 | `review_external_quarantined_text(...)` | Edit, approve or reject the displayed revision of one pending memory. |
+| `search_external_chats(...)` | Find turns in the owner's own chat with their AI consciousness. |
+| `speak_external_chat(...)` | Hear one part of a reply in the owner's chat, in the AI consciousness's own voice. |
 | `start_external_media_analysis(...)` | Explicitly describe one completed controlled upload. |
 | `upload_external_mind_data(...)` | Upload mind data (text and media) into the owner's own AI consciousness. |
 
