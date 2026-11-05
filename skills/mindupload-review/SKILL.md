@@ -49,7 +49,10 @@ Interpret the response honestly:
   or findings. A successful invocation delivers that mind's reply; it does not
   establish that the work is correct or approved.
 - The host asks the owner to sign in to Mind Upload: let the owner complete it
-  in the browser; never sign in or approve on their behalf.
+  in the browser; never sign in or approve on their behalf. If a call is refused
+  because nobody has signed in yet, ask the owner to sign in from the host (in
+  Claude Code, `claude mcp login mindupload` or `/mcp`), and treat the call as
+  not consulted until then.
 - `setup_required` (only from a local connector run with its own partner key):
   show `setup_url`, explain that a partner key in the connector's private
   runtime and owner approval are required, and stop repeating these tool calls

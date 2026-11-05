@@ -39,13 +39,18 @@ claude plugin marketplace add https://github.com/Voidborn-Industries/mindupload-
 claude plugin install mindupload@mindupload
 ```
 
-The plugin adds the hosted server and the review skill. Open `/mcp`, select
-**mindupload** and sign in. Run `/mindupload:mindupload-review` to request your
-mind's direction and final scrutiny. Without the plugin:
+The plugin adds the hosted server and the review skill. Sign in with
+`claude mcp login mindupload`, or open `/mcp`, select **mindupload** and choose
+Authenticate. Run `/mindupload:mindupload-review` to request your mind's
+direction and final scrutiny. Without the plugin:
 
 ```sh
 claude mcp add --transport http mindupload https://mcp.mindupload.app/mcp
+claude mcp login mindupload
 ```
+
+The server lists its tools before you sign in, so agents can see what it
+offers; every tool call needs the sign-in.
 
 See the [plugin installation guide](https://code.claude.com/docs/en/plugins/install).
 
@@ -135,12 +140,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.31 mindupload-mcp
+npx --yes --package mindupload@1.15.32 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.31 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.32 mindupload-mcp`.
 
 ### Python alternative
 
@@ -148,7 +153,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.31" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.32" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -156,7 +161,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.31"
+python -m pip install "mindupload[mcp]==1.15.32"
 python -m mindupload.mcp
 ```
 
@@ -299,9 +304,10 @@ and the approval in Mind Upload. Signing out of the connector in your agent
 ends the connection; Mind Upload's approval then becomes unusable and is
 replaced the next time you sign in from that agent. A local connector forgets
 its tokens when it restarts, so it asks you to approve again. An approval
-revoked in Mind Upload is refused on its next call; the Mind Upload app does
-not list connections yet, so to revoke one there, email
-[info@mindupload.app](mailto:info@mindupload.app) from your account's address.
+revoked in Mind Upload is refused on its next call. In the Mind Upload app
+(version 1.14.1 or later), Profile → Last login → Connected agents and apps
+lists every connection with the consciousness it uses, and disconnects any of
+them.
 
 **Where does my work material go, and what is kept?** The question, review
 material and media links you supply go to Mind Upload, where your consciousness
