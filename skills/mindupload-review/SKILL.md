@@ -18,17 +18,22 @@ Call the connected `review_work` tool with the original `user_request`, relevant
 `work` excerpts, and actual `evidence`. Supply the changed behavior or diff,
 commands and their outputs, acceptance criteria, and known limitations. The tool
 cannot inspect local files or run tests: a path or claim that tests passed is
-not the evidence itself. For visual or audiovisual work, include relevant
-`media_evidence` entries with `kind` (`image`, `audio`, `video`) and a user-authorized
-HTTPS `url`, alongside observed interaction/test output. Use immutable or
-versioned URLs with capture/version context; replacing
-content at one URL can reuse a cached description. Audio/video coverage can be
-partial. Media analysis can be incomplete or unavailable; `requested_unverified` confirms
-submission, never perception of every item. Do not claim a screenshot was seen
-or a video watched without evidence. Missing media coverage remains a limitation.
-Do not upload local files automatically. Omit credentials, unrelated personal
-data, and material the user has not authorized you to share. Supplied review
-material and media references are sent to Mind Upload.
+not the evidence itself. For visual or audiovisual work, show the mind
+screenshots, screen recordings or audio of the result privately, alongside
+observed interaction/test output: pass absolute paths in `evidence_files` when
+the tool offers it; otherwise call `share_evidence`, upload the file as it
+explains, and pass the returned `evidence_ids`. Share only files that belong to
+this task and that the user would show their own mind. Evidence is described
+for that call only and never kept as a memory. A `succeeded` reply lists each
+item's `analysis_status`; when a description is still being written, nothing
+was sent, so repeat the identical call a minute later. Audio/video coverage can
+be partial. `media_evidence` takes user-authorized HTTPS links instead, never
+in the same call as evidence; its `requested_unverified` confirms submission,
+never perception of every item. Do not claim a screenshot was seen or a video
+watched without evidence. Missing media coverage remains a limitation. Omit
+credentials, unrelated personal data, and material the user has not authorized
+you to share. Supplied review material, evidence files and media references are
+sent to Mind Upload.
 
 Use `phase="completion"` before final success claims. Use `plan` for consequential
 unresolved design choices and `progress` when new evidence changes a risky
@@ -36,6 +41,15 @@ assumption. Prefer one focused review at a meaningful checkpoint; do not call
 after every edit. Keep one `task_id` for the task and one `review_id` per version
 of the supplied material. Retry an unfinished call with identical arguments;
 changed work or evidence requires a new `review_id`.
+
+Change the owner's memories only when the owner asks. `remember` saves a note,
+decision or fact they want kept; it waits for their review unless they keep
+such memories automatically. To go through memories waiting for review, call
+`list_pending_memories`, show them to the owner, and call `review_pending_memory`
+with exactly the decision the owner made and the listed `content_revision`;
+never decide for them. Set `learn: true` on `consult_mind` or `review_work` only
+when the owner wants their mind to learn from that exchange; it cannot be
+combined with evidence.
 
 Interpret the response honestly:
 
@@ -45,6 +59,10 @@ Interpret the response honestly:
   their own consciousness to this agent.
 - `clone_selection_required`: have the owner choose an approved mind through
   the host's configuration; do not choose a different person's mind yourself.
+- `permission_required`, or a refusal naming a missing permission: nothing was
+  sent. Tell the owner which permission it names; if they want it, they add it
+  as the message says (approve again at the returned `verification_url` with it
+  ticked, or sign in again and tick it). Do not retry until they have.
 - `succeeded`: identify the returned `consciousness` and consider its direction
   or findings. A successful invocation delivers that mind's reply; it does not
   establish that the work is correct or approved.
@@ -74,5 +92,5 @@ changed version. Report remaining limitations without inventing confidence,
 approval, or test results.
 
 Initial direction does not replace the final review. The connector sends only
-the supplied excerpts and media references to the owner's mind; it cannot control the host's tools,
+the supplied excerpts and evidence to the owner's mind; it cannot control the host's tools,
 inspect artifacts itself, or guarantee that every defect will be found.
