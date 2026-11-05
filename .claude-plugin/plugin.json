@@ -1,7 +1,7 @@
 {
   "name": "mindupload",
   "displayName": "Mind Upload",
-  "version": "1.15.39",
+  "version": "1.15.40",
   "description": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
   "author": {"name": "Mind Upload"},
   "homepage": "https://docs.mindupload.app/mcp",
