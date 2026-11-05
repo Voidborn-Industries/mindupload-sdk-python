@@ -31,8 +31,9 @@ Add `https://mcp.mindupload.app/mcp` to your agent, then sign in when it asks:
 1. Your agent opens a Mind Upload page that shows which agent is asking and
    where access will go. Continue only if you just asked your own agent to
    connect.
-2. Mind Upload opens in a new tab. Sign in, choose the consciousness this agent
-   may consult, and approve. Approve only requests you started yourself.
+2. Mind Upload opens in a new tab. Sign in and approve: your consciousness and
+   every permission start ticked, and you can untick any. Approve only requests
+   you started yourself.
 3. The first tab returns you to your agent. The connection lasts across agent
    restarts until you sign out, or until it goes unused for 30 days.
 
@@ -153,12 +154,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.37 mindupload-mcp
+npx --yes --package mindupload@1.15.38 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.37 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.38 mindupload-mcp`.
 
 ### Python alternative
 
@@ -166,7 +167,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.37" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.38" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -174,7 +175,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.37"
+python -m pip install "mindupload[mcp]==1.15.38"
 python -m mindupload.mcp
 ```
 
@@ -374,9 +375,9 @@ add `env_vars` with the three required names and optional clone name to its
 arguments.
 
 The first personal call returns `authorization_required` and an owner
-verification link. Open it yourself and approve the intended mind, then repeat
-the exact call. Every permission starts ticked; untick any you do not want
-this agent to have. Approve only
+verification link. Open it yourself and approve, then repeat the exact call.
+Your consciousness and every permission start ticked; untick anything you do
+not want this agent to have. Approve only
 links your own agent showed you:
 approving a link someone else sends you connects your consciousness to their
 agent. Authorization tokens remain in server memory;
