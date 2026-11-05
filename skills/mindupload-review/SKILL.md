@@ -40,14 +40,20 @@ changed work or evidence requires a new `review_id`.
 Interpret the response honestly:
 
 - `authorization_required`: show the owner the returned verification link and
-  wait for their approval before retrying the same call.
+  wait for their approval before retrying the same call. Only that owner should
+  open it; never send it to anyone else, because whoever approves it connects
+  their own consciousness to this agent.
 - `clone_selection_required`: have the owner choose an approved mind through
   the host's configuration; do not choose a different person's mind yourself.
 - `succeeded`: identify the returned `consciousness` and consider its direction
   or findings. A successful invocation delivers that mind's reply; it does not
   establish that the work is correct or approved.
-- `setup_required`: show `setup_url`, explain that partner access and owner
-  linking are required, and stop repeating these tool calls until setup changes.
+- The host asks the owner to sign in to Mind Upload: let the owner complete it
+  in the browser; never sign in or approve on their behalf.
+- `setup_required` (only from a local connector run with its own partner key):
+  show `setup_url`, explain that a partner key in the connector's private
+  runtime and owner approval are required, and stop repeating these tool calls
+  until setup changes. Never ask for the key in chat.
   Continue other authorized work where possible, explicitly stating that no
   Mind Upload consultation or review ran. Do not substitute generic self-review
   and describe it as the owner's consciousness.

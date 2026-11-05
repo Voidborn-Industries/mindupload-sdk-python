@@ -1,12 +1,12 @@
 {
   "name": "mindupload",
   "displayName": "Mind Upload",
-  "version": "1.15.30",
+  "version": "1.15.31",
   "description": "AI meta harness for Codex, Claude Code, Cursor and VS Code: direction and completed-work review.",
   "author": {"name": "Mind Upload"},
   "homepage": "https://docs.mindupload.app/mcp",
   "repository": "https://github.com/Voidborn-Industries/mindupload-sdk-python",
   "license": "MIT",
   "keywords": ["mcp", "agent", "meta harness", "review", "scrutiny", "verification", "mindupload"],
-  "mcpServers": "./mcp.json"
+  "mcpServers": {"mindupload": {"type": "http", "url": "https://mcp.mindupload.app/mcp"}}
 }

@@ -7,45 +7,49 @@ using its personal memories, values, and judgment. Before completion,
 does it satisfy your request, and does it fit your intent?
 
 Start with [Mind Upload MCP](https://docs.mindupload.app/mcp), or use the install
-routes below. Install the plugin when available: it bundles both the MCP server
+routes below. Install the plugin when available: it bundles the server address
 and a skill that asks for initial direction and completion scrutiny. Installing
 the server alone makes tools available; the host still decides when to call them.
 
 ## Connect your mind
 
-You need a consciousness in [Mind Upload](https://mindupload.app), partner API
-access, and owner consent. [Request partner access](https://docs.mindupload.app/)
-through the API documentation's access form if you do not already have it.
-Partner access is currently required; installing this package does not create
-an account or provide a shared key.
+Add `https://mcp.mindupload.app/mcp` to your agent, then sign in when it asks:
 
-You can install and discover the connector before setup. Both tools return
-`setup_required` with a setup link until the trusted runtime is configured;
-no consciousness is consulted and no review runs.
+1. Your agent opens a Mind Upload page that shows which agent is asking and
+   where access will go. Continue only if you just asked your own agent to
+   connect.
+2. Mind Upload opens in a new tab. Sign in, choose the consciousness this agent
+   may consult, and approve. Approve only requests you started yourself.
+3. The first tab returns you to your agent. The connection lasts across agent
+   restarts until you sign out, or until it goes unused for 30 days.
 
-Supply the runtime values under **Personal setup and owner consent** below,
-then open the verification link returned by the first call and approve the
-intended consciousness. Keep the private partner key out of chat and tool
-arguments.
+No partner key, account setup or environment variable is needed: the hosted
+server holds the application credential. You need a consciousness in
+[Mind Upload](https://mindupload.app); invoking it uses your account's
+subscription. Signing in again from the same agent replaces the earlier
+approval instead of adding another.
 
-## Install the connector
+`connection_status` shows the approval this connection uses, its
+consciousnesses, permissions and dates, and how to end it.
 
-MCP is language agnostic: your agent and project can use any language. Choose
-either local server implementation. The default uses Node.js 20 or later and
-does not require Python or `uv`; the [Python alternative](#python-alternative)
-uses Python 3.11 or later. Both expose the same tools and owner consent flow.
-
-With [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
+### Claude Code
 
 ```sh
-npx --yes --package mindupload@1.15.30 mindupload-mcp
+claude plugin marketplace add https://github.com/Voidborn-Industries/mindupload-sdk-python
+claude plugin install mindupload@mindupload
 ```
 
-The server speaks MCP over standard input and output; an interactive terminal
-waits for protocol messages. Add it to your host instead of typing questions
-into that terminal.
+The plugin adds the hosted server and the review skill. Open `/mcp`, select
+**mindupload** and sign in. Run `/mindupload:mindupload-review` to request your
+mind's direction and final scrutiny. Without the plugin:
 
-### Codex plugin
+```sh
+claude mcp add --transport http mindupload https://mcp.mindupload.app/mcp
+```
+
+See the [plugin installation guide](https://code.claude.com/docs/en/plugins/install).
+
+### Codex
 
 ```sh
 codex plugin marketplace add https://github.com/Voidborn-Industries/mindupload-sdk-python
@@ -54,35 +58,22 @@ codex plugin add mindupload@mindupload
 
 Alternatively, in the desktop app, open Plugins, select the **Mind Upload**
 marketplace, and install **mindupload**. This adds our repository marketplace;
-it does not imply listing in the universal public directory. For configuration
-without the plugin:
+it does not imply listing in the universal public directory. Without the plugin:
 
 ```sh
-codex mcp add mindupload -- npx --yes --package mindupload@1.15.30 mindupload-mcp
+codex mcp add mindupload --url https://mcp.mindupload.app/mcp
+codex mcp login mindupload
 ```
 
-### Claude Code plugin
+### Cursor and other hosts that use `mcpServers`
 
-```sh
-claude plugin marketplace add https://github.com/Voidborn-Industries/mindupload-sdk-python
-claude plugin install mindupload@mindupload
-```
-
-Run `/mindupload:mindupload-review` to request your mind's direction and final
-scrutiny. Check `/mcp` for the server connection.
-See the [plugin installation guide](https://code.claude.com/docs/en/plugins/install).
-
-### Cursor, Claude Desktop, Cline, and other local MCP hosts
-
-Add this server using the host's MCP configuration interface. For hosts whose
-configuration uses `mcpServers`, merge the following entry into that object:
+Merge this entry into the host's MCP configuration and sign in when it asks:
 
 ```json
 {
   "mcpServers": {
     "mindupload": {
-      "command": "npx",
-      "args": ["--yes", "--package", "mindupload@1.15.30", "mindupload-mcp"]
+      "url": "https://mcp.mindupload.app/mcp"
     }
   }
 }
@@ -95,16 +86,15 @@ review skill; use the project guidance under [Direct, execute, scrutinize](#dire
 
 ### VS Code and GitHub Copilot
 
-Run **MCP: Add Server** and select a command-based server with the command above,
-or merge this entry into your workspace's `.vscode/mcp.json`:
+Run **MCP: Add Server**, choose an HTTP server and enter the address above, or
+merge this entry into your workspace's `.vscode/mcp.json`:
 
 ```json
 {
   "servers": {
     "mindupload": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["--yes", "--package", "mindupload@1.15.30", "mindupload-mcp"]
+      "type": "http",
+      "url": "https://mcp.mindupload.app/mcp"
     }
   }
 }
@@ -115,13 +105,50 @@ If a host searches the official MCP Registry, search **mindupload** or the
 publisher name **io.github.Voidborn-Industries/mindupload**. Registry publication,
 downstream indexing, and each host's marketplace approval are separate steps.
 
+## Bring your own partner key
+
+Partner applications, and people who prefer a server on their own computer,
+can run the connector locally with their own partner key instead. Each route
+keeps the key out of other people's hands:
+
+- **Personal local use.** Request your own partner key and keep it on your
+  computer. Follow [Personal setup and owner consent](#personal-setup-and-owner-consent).
+- **Trusted team testing.** A team owner may share one partner key with trusted
+  colleagues. Each person runs a separate connector, uses a separate
+  `MINDUPLOAD_EXTERNAL_SUBJECT`, and approves only their own consciousness.
+  The team shares the key's limits.
+- **Provider integration.** A service keeps the partner key on its own server
+  and derives installation and user identifiers from the accounts it signs in.
+  Never ship the key in an app, package, plugin, web page or shared
+  configuration.
+
+[Request partner access](https://docs.mindupload.app/) through the API
+documentation's access form. Requesting a key, waiting for approval,
+configuring the runtime and approving your consciousness are separate steps.
+Until the runtime is configured, both local tools return `setup_required` with
+a setup link; no consciousness is consulted and no review runs.
+
+MCP is language agnostic: your agent and project can use any language. The
+local server uses Node.js 20 or later and does not require Python or `uv`; the
+[Python alternative](#python-alternative) uses Python 3.11 or later. Both
+expose the same tools and owner consent flow. With
+[Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
+
+```sh
+npx --yes --package mindupload@1.15.31 mindupload-mcp
+```
+
+The server speaks MCP over standard input and output; add it to your host as a
+command-based server instead of typing into that terminal. For example,
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.31 mindupload-mcp`.
+
 ### Python alternative
 
 If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/installation/)
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.30" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.31" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -129,7 +156,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.30"
+python -m pip install "mindupload[mcp]==1.15.31"
 python -m mindupload.mcp
 ```
 
@@ -155,8 +182,8 @@ For hosts without the bundled skill, add this to your project guidance:
 > the result follows my mind's direction. Fix demonstrated problems and verify
 > the changed version, then review changed evidence. Report unresolved
 > findings and missing evidence honestly. Review consequential plans or changed
-> assumptions when needed; avoid calls after every edit. If setup is required,
-> show the setup link and state that no mind was consulted or review performed.
+> assumptions when needed; avoid calls after every edit. If Mind Upload is not
+> connected, ask me to sign in, and state that no mind was consulted or review performed.
 > A mind's advice does not grant permission for actions or establish correctness.
 
 `review_work` accepts `user_request`, `work`, `evidence`, `task_id`, `review_id`,
@@ -213,7 +240,7 @@ Supply these variables through the environment that launches your server:
   trusted runtime; never distribute it with an application or paste it in chat.
 - `MINDUPLOAD_INSTALLATION_ID`: a stable identifier for this installation.
 - `MINDUPLOAD_EXTERNAL_SUBJECT`: a stable identifier for the person linking
-  their mind in this installation.
+  their mind in this installation. Both identifiers are labels, not passwords.
 - `MINDUPLOAD_CLONE_ID` (optional): the exact mind to consult. Without it,
   approve exactly one mind during linking; multiple minds require this setting.
 
@@ -226,7 +253,9 @@ arguments.
 
 The first personal call returns `authorization_required` and an owner
 verification link. Open it yourself and approve `clone:invoke` for the intended
-mind, then repeat the exact call. Authorization tokens remain in server memory;
+mind, then repeat the exact call. Approve only links your own agent showed you:
+approving a link someone else sends you connects your consciousness to their
+agent. Authorization tokens remain in server memory;
 a restart requires linking again. The connection requests no learning or
 memory-upload permission, but personal invocations record history and send the
 supplied question or review material to Mind Upload.
@@ -238,8 +267,55 @@ needs a new `review_id`; a changed consultation needs a new `decision_id`.
 `task_id` through initial direction, important decisions, and completion review
 so the chosen mind receives the task's consultation history.
 
-This is a local stdio server. Web-only hosts need explicit support for a local
-connection; this package is not a hosted remote MCP endpoint.
+This section applies to the local server. The hosted server at
+`https://mcp.mindupload.app/mcp` needs none of it: signing in in your agent links your mind.
+
+## Access and privacy questions
+
+**Does everyone need a partner key?** No. Add `https://mcp.mindupload.app/mcp` and sign
+in: the hosted server holds the application credential, so nothing secret is
+stored on your computer. A partner key is only for running the connector
+yourself or building your own integration.
+
+**Can someone using the same key reach my consciousness?** Not unless you
+approve their request. Every call also needs the access token from an owner's
+approval, issued for one installation and user identifier, and it reaches only
+the consciousnesses that owner approved. The connector never asks for
+`clone:invoke_shared`, the separate permission that would let another person's
+agent call your consciousness in a shared group. People sharing a key do share
+its limits, and reusing the same identifiers can mix their usage statistics.
+
+**Which connection details must I never share?** Never approve a Mind Upload
+sign-in someone else sends you: approving connects your consciousness to their
+agent. Never let others use an agent session you have connected: anyone who can
+send it requests acts as you. If you run the connector locally, also keep the
+partner key private. Installation and user identifiers are labels, not
+passwords: changing them protects nothing.
+
+**What do restarting, disconnecting and revoking do?** With the hosted server,
+restarting your agent keeps the connection; it signs in again only after 30
+days unused. Asking your agent to run the `disconnect` tool ends the connection
+and the approval in Mind Upload. Signing out of the connector in your agent
+ends the connection; Mind Upload's approval then becomes unusable and is
+replaced the next time you sign in from that agent. A local connector forgets
+its tokens when it restarts, so it asks you to approve again. An approval
+revoked in Mind Upload is refused on its next call; the Mind Upload app does
+not list connections yet, so to revoke one there, email
+[info@mindupload.app](mailto:info@mindupload.app) from your account's address.
+
+**Where does my work material go, and what is kept?** The question, review
+material and media links you supply go to Mind Upload, where your consciousness
+answers from its memories. Each exchange is stored encrypted for 7 days, so a
+retry returns the same answer and later calls in the same `task_id` include up
+to 20 earlier exchanges. Mind Upload fetches media links itself and can reuse a
+media description for up to 30 days. The connector adds nothing to your
+consciousness's memories and cannot read your local files. The privacy
+statement and terms in the Mind Upload app apply.
+
+**Can a reply reveal private information?** Yes. The connector cannot read your
+raw memories, but your consciousness answers from them, so a reply can contain
+personal details. Replies appear in your agent's conversation and go wherever
+that agent stores or sends it.
 
 The host executes the work with its own tools and approvals. Mind Upload cannot
 force a host to call these tools or act as a universal operating system for it.

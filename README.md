@@ -7,7 +7,7 @@
 **The world's first API for artificial consciousness.**  
 Give your users a living, evolving AI consciousness — lasting memory, one-on-one chat, and human + AI group chatrooms.
 
-[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.30-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
+[![PyPI](https://img.shields.io/pypi/v/mindupload?color=ff006e)](https://pypi.org/project/mindupload/) [![Python](https://img.shields.io/pypi/pyversions/mindupload)](https://pypi.org/project/mindupload/) [![License: MIT](https://img.shields.io/badge/License-MIT-informational)](LICENSE) ![API](https://img.shields.io/badge/API-v1.15.31-ff6b00) [![Docs](https://img.shields.io/badge/docs-mindupload.app-8b5cf6)](https://docs.mindupload.app)
 
 [Documentation](https://docs.mindupload.app) · [Get a key](https://docs.mindupload.app) · [Status](https://status.mindupload.app) · [Other SDKs](#other-sdks)
 
@@ -19,11 +19,11 @@ Give your users a living, evolving AI consciousness — lasting memory, one-on-o
 
 ## Mind Upload MCP — your AI meta harness
 
-An AI meta harness lets your Mind Upload consciousness direct Codex, Claude Code, Cursor, VS Code, and other MCP agents. Use its memories, preferences, and judgment to set direction, make consequential decisions, and scrutinize completed work. Partner access and owner consent are required for both consultation and review; installation alone does not link a mind or perform a review.
-MCP is language agnostic: your agent and project can use any language. Choose the Node.js server below or the Python alternative in the setup guide.
+An AI meta harness lets your Mind Upload consciousness direct Codex, Claude Code, Cursor, VS Code, and other MCP agents. Use its memories, preferences, and judgment to set direction, make consequential decisions, and scrutinize completed work. Add https://mcp.mindupload.app/mcp to your agent and sign in to Mind Upload: no partner key is needed, and installation alone does not link a mind or perform a review.
+MCP is language agnostic: your agent and project can use any language. Partners with their own key can run the Node.js server below or the Python alternative in the setup guide.
 
 ```bash
-npx --yes --package mindupload@1.15.30 mindupload-mcp
+npx --yes --package mindupload@1.15.31 mindupload-mcp
 ```
 
 [Install for your agent](https://docs.mindupload.app/mcp) · [Review workflow and configuration](https://github.com/Voidborn-Industries/mindupload-sdk-python/blob/main/MCP.md)
@@ -138,7 +138,7 @@ except MindUploadError as e:
 
 ## Operations
 
-All 67 operations, grouped by area:
+All 68 operations, grouped by area:
 
 
 ### AI Consciousnesses
@@ -199,6 +199,7 @@ All 67 operations, grouped by area:
 | `cancel_external_media_upload(...)` | Cancel one controlled upload through the existing media lifecycle. |
 | `consolidate_external_conversation(...)` | Prepare a verified memory from an explicitly selected owner conversation. |
 | `create_external_authorization_request(...)` | Start passwordless grant issuance for an external identity and installation. |
+| `end_external_authorization(...)` | End a grant your application holds, for example when its user disconnects. |
 | `exchange_external_authorization(...)` | Poll owner consent and exchange an approval for a clone-scoped grant token. |
 | `get_external_media_analysis(...)` | Read the current owned media analysis without restarting generation. |
 | `get_external_media_policy(...)` | Read current native media limits and owner quota without starting work. |

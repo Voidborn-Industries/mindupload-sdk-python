@@ -2,9 +2,8 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "mindupload": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["--yes", "--package", "mindupload@1.15.30", "mindupload-mcp"]
+      "type": "streamable-http",
+      "url": "https://mcp.mindupload.app/mcp"
     }
   }
 }
