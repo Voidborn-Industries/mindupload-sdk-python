@@ -65,7 +65,6 @@ _LIST_PENDING_TOOL = "list_pending_memories"
 _REVIEW_PENDING_TOOL = "review_pending_memory"
 _TOOL_NAMES = [_CONSULT_TOOL, _REVIEW_TOOL, _REMEMBER_TOOL, _LIST_PENDING_TOOL, _REVIEW_PENDING_TOOL]
 _REQUESTED_SCOPES = ["clone:invoke", "clone:evidence", "clone:upload", "clone:review", "clone:learn"]
-_OPTIONAL_SCOPES = ["clone:upload", "clone:review", "clone:learn"]
 _PERMISSION_REQUIRED = "permission_required"
 _SCREENSHOT_BYTES = b"\x89PNG fictional screenshot bytes"
 _RECORDING_BYTES = b"RIFF fictional recording bytes"
@@ -401,7 +400,8 @@ class MindConsultationTest(unittest.IsolatedAsyncioTestCase):
         self.partner_client.wait_for_external_clone_invocation.assert_called_once()
 
     async def test_both_tools_batch_media_into_existing_invocation_without_claiming_perception(self) -> None:
-        """Each tool sends three explicit media tags in one invocation, not three requests.
+        """Each tool sends three explicit media tags in one invocation, not three requests,
+        and claims nothing about perception when the service returns no per-item outcome.
 
         Returns:
             None.
@@ -418,10 +418,56 @@ class MindConsultationTest(unittest.IsolatedAsyncioTestCase):
         for result, invocation in zip((direction, review), invocations):
             self.assertEqual(first=result.structured_content["media_evidence"], second=_MEDIA_EVIDENCE)
             self.assertEqual(first=result.structured_content["media_analysis_status"], second="requested_unverified")
+            self.assertNotIn(member="media_analysis", container=result.structured_content)
             # Each supported media kind must reach the existing public text-tag contract unchanged.
             for media in _MEDIA_EVIDENCE:
                 tag = f"[{media['kind']}:{media['url']}]"
                 self.assertEqual(first=invocation.kwargs["text"].count(tag), second=1)
+
+    async def test_both_tools_report_per_item_media_outcomes_from_the_shared_fixture(self) -> None:
+        """Each tool reports the service's outcomes by position, exactly as the other connectors do.
+
+        Returns:
+            None.
+        """
+        fixture = json.loads(
+            s=Path(__file__).with_name(name="mcp_parity_fixture.json").read_text(encoding="utf-8"),
+        )
+        # One subtest per shared case: each case is a different invocation response.
+        for media_case in fixture["media_analysis_cases"]:
+            with self.subTest(case=media_case["name"]):
+                invocation_result = {
+                    "response_text": "Choose the option that protects time with family.",
+                    "invocation_id": "test-invocation",
+                    "idempotent_replay": False,
+                }
+                if media_case["service_media_analysis"] is not None:
+                    invocation_result["media_analysis"] = media_case["service_media_analysis"]
+                self.partner_client.wait_for_external_clone_invocation.return_value = invocation_result
+                server = create_server(
+                    client=self.partner_client,
+                    installation_id=_INSTALLATION_IDENTIFIER,
+                    external_subject=_EXTERNAL_SUBJECT,
+                )
+                async with Client(server=server) as connection:
+                    await self._approve(connection=connection)
+                    direction = await self._consult(
+                        connection=connection, decision_id="media-direction",
+                        media_evidence=fixture["media_evidence"],
+                    )
+                    review = await self._review(connection=connection, media_evidence=fixture["media_evidence"])
+                # Both tools share one reporting path.
+                for result in (direction, review):
+                    self.assertEqual(
+                        first=result.structured_content["media_analysis_status"],
+                        second=media_case["media_analysis_status"],
+                    )
+                    self.assertEqual(
+                        first=result.structured_content.get("media_analysis"), second=media_case["media_analysis"],
+                    )
+                    self.assertEqual(
+                        first=result.structured_content["media_evidence"], second=fixture["media_evidence"],
+                    )
 
     async def test_media_urls_and_kinds_are_rejected_before_authorization(self) -> None:
         """Unsafe syntax, private literals and unsupported media never reach a partner request.
@@ -669,7 +715,7 @@ class MindConsultationTest(unittest.IsolatedAsyncioTestCase):
         )
         consent_request = self.partner_client.create_external_authorization_request.call_args.kwargs
         self.assertEqual(first=consent_request["requested_scopes"], second=_REQUESTED_SCOPES)
-        self.assertEqual(first=consent_request["optional_scopes"], second=_OPTIONAL_SCOPES)
+        self.assertNotIn(member="optional_scopes", container=consent_request)
         self.partner_client.wait_for_external_clone_invocation.assert_called_once()
         invocation = self.partner_client.wait_for_external_clone_invocation.call_args.kwargs
         self.assertEqual(first=invocation["text"], second=_QUESTION)
@@ -1326,7 +1372,7 @@ class MindConsultationTest(unittest.IsolatedAsyncioTestCase):
         self.partner_client.create_external_authorization_request.assert_called_once()
 
     async def test_missing_permission_names_it_and_requests_approval_while_keeping_consultation(self) -> None:
-        """An approval without an opt-in permission still consults; the gated call asks for it.
+        """An approval where the owner unticked a permission still consults; the gated call asks for it.
 
         Returns:
             None.

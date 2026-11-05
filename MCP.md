@@ -143,12 +143,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.34 mindupload-mcp
+npx --yes --package mindupload@1.15.35 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.34 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.35 mindupload-mcp`.
 
 ### Python alternative
 
@@ -156,7 +156,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.34" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.35" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -164,7 +164,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.34"
+python -m pip install "mindupload[mcp]==1.15.35"
 python -m mindupload.mcp
 ```
 
@@ -253,15 +253,47 @@ Links and evidence cannot be combined in one call. Private-host URLs, local
 file paths, and links behind browser sign-in are unsuitable; treat
 access-bearing links as private task data. Use immutable or versioned URLs:
 replacing content at the same URL can reuse a cached description, and a changed
-`review_id` alone does not refresh it. Replies to a call with links report
-`media_analysis_status: "requested_unverified"`: the links were requested, but
-there is no receipt that each one was perceived. Ask the mind to say what it
-could actually assess; missing perception remains missing verification.
+`review_id` alone does not refresh it. Replies to a call with links report, for
+each link in the order supplied, what actually happened to it:
+
+```json
+{
+  "media_analysis_status": "partially_analyzed",
+  "media_analysis": [
+    {"kind": "image", "status": "analyzed"},
+    {"kind": "audio", "status": "refused", "reason": "hosted_by_mind_upload"},
+    {"kind": "video", "status": "failed", "reason": "download_failed"}
+  ]
+}
+```
+
+| `status` | Meaning |
+| --- | --- |
+| `analyzed` | The consciousness received a description of the link, including one reused from an earlier analysis. |
+| `refused` | The link was never opened. `reason` is `hosted_by_mind_upload` (a link to media stored by Mind Upload) or `export_not_allowed` (the data-handling rules that apply to your application do not allow its media to be sent for analysis). |
+| `failed` | The link was meant to be analyzed but no description resulted. `reason` is `download_failed`, `analysis_failed`, `content_filtered` (the analysis declined to describe the content), `empty_analysis`, `time_budget_exhausted`, `item_limit_reached` or `analysis_unavailable`. |
+
+One call analyzes a bounded number of new links. Links analyzed recently are
+reused and do not count. The rest are analyzed in the order supplied, and each
+link past the bound reports `item_limit_reached`; split a long list across
+separate reviews, each with its own `review_id`. A link that reported
+`content_filtered` or `empty_analysis` reports it again for the next 24 hours
+without being analyzed again, and does not count either.
+
+`media_analysis_status` summarizes the list: `analyzed` when every link was
+analyzed, `partially_analyzed` when some were, and `not_analyzed` when none
+were. It is `requested_unverified`, with no `media_analysis` list, when the
+service returned no per-link report that lines up with the links supplied: for
+example on a retry of a call made before these reports existed, or when an
+entry is malformed or describes a different kind of media. Retries of the same
+identifiers return the stored report unchanged. Only `analyzed` links were
+perceived. Ask the mind to say what it could actually assess; missing
+perception remains missing verification.
 
 ## Save and review memories, and let your mind learn
 
-These need permissions that start unticked when you approve the connection.
-Tick only those you want this agent to use:
+These need permissions that start ticked when you approve the connection.
+Untick any you do not want this agent to use:
 
 - **Save memories** (`clone:upload`): when you ask, `remember` saves a note,
   decision or fact into your mind. It waits for your review unless you chose to
@@ -312,8 +344,8 @@ arguments.
 
 The first personal call returns `authorization_required` and an owner
 verification link. Open it yourself and approve the intended mind, then repeat
-the exact call. Consulting and sharing task evidence are ticked; saving
-memories, reviewing pending memories and learning start unticked. Approve only
+the exact call. Every permission starts ticked; untick any you do not want
+this agent to have. Approve only
 links your own agent showed you:
 approving a link someone else sends you connects your consciousness to their
 agent. Authorization tokens remain in server memory;

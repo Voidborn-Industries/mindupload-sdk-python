@@ -28,9 +28,11 @@ for that call only and never kept as a memory. A `succeeded` reply lists each
 item's `analysis_status`; when a description is still being written, nothing
 was sent, so repeat the identical call a minute later. Audio/video coverage can
 be partial. `media_evidence` takes user-authorized HTTPS links instead, never
-in the same call as evidence; its `requested_unverified` confirms submission,
-never perception of every item. Do not claim a screenshot was seen or a video
-watched without evidence. Missing media coverage remains a limitation. Omit
+in the same call as evidence. Read its `media_analysis`: only links whose
+`status` is `analyzed` were perceived; `refused` and `failed` ones carry a
+`reason`, and `requested_unverified` means no per-link report came back. Do not
+claim a screenshot was seen or a video watched unless its item was analyzed.
+Missing media coverage remains a limitation. Omit
 credentials, unrelated personal data, and material the user has not authorized
 you to share. Supplied review material, evidence files and media references are
 sent to Mind Upload.
