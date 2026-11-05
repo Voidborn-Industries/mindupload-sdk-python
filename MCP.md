@@ -1,13 +1,23 @@
 # Mind Upload MCP: your AI meta harness
 
-An **AI meta harness** lets your Mind Upload consciousness direct Codex, Claude
-Code, Cursor, or another execution agent. `consult_mind` asks your chosen mind how to approach the task,
-using its personal memories, values, and judgment. Before completion,
-`review_work` asks the same mind to scrutinize the actual result and evidence:
-does it satisfy your request, and does it fit your intent? Your agent can show it
-screenshots, screen recordings and audio of the work privately, and, only with
-your permission, save notes into your mind or help you go through memories
-waiting for your review.
+You ask your coding agent for a script that reports monthly usage. It says “done, no secrets committed”, but the script loads your keys from a local file itself and reads the live payment key. Mind Upload lets the AI consciousness you built
+from your own memories check Codex, Claude Code, Cursor, or another execution
+agent at two moments. `consult_mind` asks your chosen mind how to approach the
+task, using its personal memories, values, and judgment. Before completion,
+`review_work` asks it to check the actual result and evidence against your
+request and stored rules. Your agent can show it screenshots, screen recordings
+and audio of the work privately, and, only with your permission, save notes
+into your mind or help you go through memories waiting for your review.
+
+## When to call it, and what we measured
+
+Call `consult_mind` before substantial work and when a consequential decision
+changes the plan. Call `review_work` before reporting a substantial task done.
+Skip both for routine edits and facts the repository answers: each call adds a
+step on top of the agent's own work, and the reply is advice, not approval.
+
+Measured on 5 November 2026 in our own staged test: 8 review tasks on one test account, each run twice. For 4 of the tasks we wrote a matching rule into the account's memories. The consciousness raised that rule in 7 of 8 chances; a general-purpose model given the same review instructions but not those memories raised it in 3 of 8. Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. In our staged test, with 4 rules we wrote into its memories to match planted problems, it raised them in 7 of 8 chances (4 rules, 2 runs each). The table and how it
+was measured are on [Mind Upload MCP](https://docs.mindupload.app/mcp#measured).
 
 Start with [Mind Upload MCP](https://docs.mindupload.app/mcp), or use the install
 routes below. Install the plugin when available: it bundles the server address
@@ -143,12 +153,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.35 mindupload-mcp
+npx --yes --package mindupload@1.15.36 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.35 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.36 mindupload-mcp`.
 
 ### Python alternative
 
@@ -156,7 +166,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.35" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.36" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -164,7 +174,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.35"
+python -m pip install "mindupload[mcp]==1.15.36"
 python -m mindupload.mcp
 ```
 
@@ -198,9 +208,10 @@ For hosts without the bundled skill, add this to your project guidance:
 optional `phase` (`completion` by default, or `plan` / `progress`), and optional
 evidence (below). Supply actual excerpts and observed output. The connector
 cannot run tests and opens no file except evidence your agent names. Include
-what was not tested. Keep all text within the tool's advertised size limit;
-narrow the scope explicitly instead of silently dropping evidence. Never include
-credentials or unrelated private data.
+what was not tested. The three text fields share one size limit with the review
+instructions the connector adds: about 6,600 characters together after JSON
+escaping, less with media links. Narrow the scope explicitly instead of silently
+dropping evidence. Never include credentials or unrelated private data.
 
 ## Show screenshots, recordings and audio privately
 
@@ -414,8 +425,6 @@ raw memories, but your consciousness answers from them, so a reply can contain
 personal details. Replies appear in your agent's conversation and go wherever
 that agent stores or sends it.
 
-The host executes the work with its own tools and approvals. Mind Upload cannot
-force a host to call these tools or act as a universal operating system for it.
-Protocol and consent tests use simulated replies; they do not demonstrate the
-quality of a real person's consciousness. A live owner-approved task is needed
-to evaluate personal judgment and any improvement over the agent alone.
+The host executes the work with its own tools and approvals, and decides
+whether to call these tools. Protocol and consent tests use simulated replies;
+they do not show the quality of a real person's consciousness.

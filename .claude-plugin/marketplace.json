@@ -1,6 +1,6 @@
 {
   "name": "mindupload",
   "owner": {"name": "Mind Upload"},
-  "description": "AI meta harness for Codex, Claude Code, Cursor and VS Code: direction and completed-work review.",
-  "plugins": [{"name": "mindupload", "source": ".", "category": "productivity"}]
+  "description": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
+  "plugins": [{"name": "mindupload", "source": ".", "category": "productivity", "tags": ["mindupload", "mcp", "ai-meta-harness", "code-review", "ai-code-review", "second-opinion", "personal-memory", "coding-agent"]}]
 }

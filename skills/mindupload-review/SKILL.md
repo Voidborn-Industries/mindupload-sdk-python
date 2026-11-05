@@ -1,11 +1,15 @@
 ---
 name: mindupload-review
-description: Let the owner's Mind Upload consciousness direct an existing agent and scrutinize its completed work. Use when the user wants their personal mind's judgment, priorities, or review throughout a substantive task.
+description: Ask the owner's Mind Upload consciousness, an AI built from their own memories, for direction before a substantial task and for a review of the actual result before saying it is done. Use when the user asks to check with their mind, their consciousness or Mind Upload, wants a second opinion or a review by their own standards, or before reporting a consequential task finished (a release, deploy, migration, deletion, payment or privacy change) where the owner's own rules may apply. Needs the Mind Upload MCP server signed in. Skip it for routine edits and questions the repository answers.
 ---
 
 Act as an AI meta harness: use the owner's chosen consciousness for direction and scrutiny while the
 existing agent performs the work. Preserve the user's scope, permissions, and
 chosen tools; a mind's advice never authorizes an external action.
+
+When to call it: Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. In our staged test, with 4 rules we wrote into its memories to match planted problems, it raised them in 7 of 8 chances (4 rules, 2 runs each). Call it where the owner's
+priorities, past mistakes or definition of done can change the answer, not for
+checks your own tests settle.
 
 Before substantial execution, call `consult_mind` with the original goal,
 constraints, relevant options, and proposed approach. Ask what matters to this
@@ -17,8 +21,8 @@ direction across routine edits.
 Call the connected `review_work` tool with the original `user_request`, relevant
 `work` excerpts, and actual `evidence`. Supply the changed behavior or diff,
 commands and their outputs, acceptance criteria, and known limitations. The tool
-cannot inspect local files or run tests: a path or claim that tests passed is
-not the evidence itself. For visual or audiovisual work, show the mind
+runs no tests and opens no local file except evidence files you pass: a path or
+claim that tests passed is not the evidence itself. For visual or audiovisual work, show the mind
 screenshots, screen recordings or audio of the result privately, alongside
 observed interaction/test output: pass absolute paths in `evidence_files` when
 the tool offers it; otherwise call `share_evidence`, upload the file as it

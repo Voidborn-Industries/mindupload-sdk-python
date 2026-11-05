@@ -45,6 +45,10 @@ _CONSULT_TOOL = "consult_mind"
 _REVIEW_TOOL = "review_work"
 _SETUP_REQUIRED = "setup_required"
 _SETUP_URL = "https://docs.mindupload.app/mcp"
+# The shared contract text the hosted and Node connectors also list.
+_CONSULT_TOOL_DESCRIPTION = "Ask the owner's Mind Upload consciousness, an AI built from the owner's own memories, values and way of thinking, how they would approach this task. Call it before substantial work (a release, deploy, migration, deletion, payment or privacy change, or a choice the owner's priorities decide), and again only when a consequential decision changes the plan. It can add what the owner stored in Mind Upload and your instructions do not hold: their priorities, the tradeoffs they accept, past mistakes and what “done” means to them. Put the goal, constraints, options and your proposed approach in one question; it cannot read your files, so share screenshots, recordings or audio as evidence files (evidence_files, or share_evidence and then evidence_ids). On success it returns decision, a short reply in that consciousness's own words and language, and consciousness, naming who answered, plus the analysis status of each evidence file or media link. The reply is advice, not permission. Skip it for routine edits, facts you can look up, and rules already in your instructions."
+_REVIEW_TOOL_DESCRIPTION = "Before you tell the user substantial work is done, ask the owner's Mind Upload consciousness to review it against the original request, the evidence you supply, and the rules and past mistakes it remembers. Supply the original request, the actual result or diff excerpts, and the verification output you observed; it cannot read files or run tests, so a claim that tests passed is not evidence. Share screenshots, recordings or audio of the result as evidence files (evidence_files, or share_evidence and then evidence_ids), not inside the evidence text. user_request, work and evidence share one size limit with the review instructions the connector adds: about 6,600 characters together after JSON escaping, less with media links. An oversized call is refused before anything is sent. On success it returns review, a short reply naming what it finds missing or wrong, and consciousness, naming who answered, plus the analysis status of each evidence file or media link. That reply is an opinion, not approval: investigate each finding, fix what is real, and review the changed work under a new review_id. Do not call it after every edit."
+_PARAMETER_DESCRIPTIONS = {'question': "The goal, constraints, options and proposed approach, and the decision that needs the owner's judgment.", 'task_id': 'Stable identifier for the whole task. Reuse it across consult_mind and review_work so later calls include earlier exchanges.', 'decision_id': 'New for each distinct question; reuse the same value only to retry an identical call.', 'user_request': "The user's original request and acceptance criteria, in their words where possible. Shares one size limit with work and evidence.", 'work': 'What you actually changed or produced: focused result or diff excerpts and the scope you claim. Shares one size limit with user_request and evidence.', 'evidence': 'Verification you observed: commands with their output, observations and known limitations. Paste output; a statement that tests passed is not evidence. Redact secrets first. Shares one size limit with user_request and work.', 'review_id': 'New for each changed version of the work or evidence; reuse the same value only to retry an identical call.', 'phase': 'completion before reporting the task done; plan or progress only at a risky checkpoint.', 'media_evidence': "Optional HTTPS links the user authorized to screenshots, audio or video of the result. Not with evidence files in one call. The reply's media_analysis says whether each link was analyzed, refused or failed.", 'evidence_files': 'Absolute paths of screenshots, recordings or audio of the work to share privately. Analyzed for this call only and never kept as a memory. Not with media_evidence or learn.', 'evidence_ids': 'Ids from share_evidence whose files you uploaded; the consciousness reads their analysis. Not with media_evidence or learn.', 'learn': "True only when the owner wants their mind to learn from this exchange. Needs the owner's learning permission; what it learns waits for the owner's review unless they auto-keep. Not with evidence files."}
 _REQUEST = "Preserve offline drafts until the server acknowledges saving them."
 _WORK = "Editor clears the draft immediately after starting an asynchronous save."
 _EVIDENCE = "No acknowledgement test was run; a successful request was simulated."
@@ -229,6 +233,21 @@ class MindConsultationTest(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(expr=review.annotations.read_only_hint)
         self.assertTrue(expr=review.annotations.open_world_hint)
         self.assertEqual(first=self.partner_client.mock_calls, second=[])
+
+    async def test_listed_descriptions_are_the_shared_contract_text(self) -> None:
+        """Agents choose tools and arguments from the same text every connector lists.
+
+        Returns:
+            None.
+        """
+        async with Client(server=self.server) as connection:
+            tools = await connection.list_tools()
+        descriptions = {_CONSULT_TOOL: _CONSULT_TOOL_DESCRIPTION, _REVIEW_TOOL: _REVIEW_TOOL_DESCRIPTION}
+        # One pass per invocation tool: the docstring stays for code readers and must not leak into the listing.
+        for tool in (listed for listed in tools.tools if listed.name in descriptions):
+            self.assertEqual(first=tool.description, second=descriptions[tool.name])
+            for argument, schema in tool.input_schema["properties"].items():
+                self.assertEqual(first=schema["description"], second=_PARAMETER_DESCRIPTIONS[argument])
 
     async def test_stdio_entrypoint_discovers_tool_without_network_or_stdout_noise(self) -> None:
         """Start the installed entrypoint from outside its checkout.
