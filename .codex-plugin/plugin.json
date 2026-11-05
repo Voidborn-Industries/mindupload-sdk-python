@@ -1,6 +1,6 @@
 {
   "name": "mindupload",
-  "version": "1.15.36",
+  "version": "1.15.37",
   "description": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
   "keywords": ["mindupload", "mcp", "ai-meta-harness", "code-review", "ai-code-review", "second-opinion", "personal-memory", "coding-agent"],
   "interface": {

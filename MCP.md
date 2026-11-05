@@ -153,12 +153,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.36 mindupload-mcp
+npx --yes --package mindupload@1.15.37 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.36 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.37 mindupload-mcp`.
 
 ### Python alternative
 
@@ -166,7 +166,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.36" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.37" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -174,7 +174,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.36"
+python -m pip install "mindupload[mcp]==1.15.37"
 python -m mindupload.mcp
 ```
 
@@ -209,9 +209,29 @@ optional `phase` (`completion` by default, or `plan` / `progress`), and optional
 evidence (below). Supply actual excerpts and observed output. The connector
 cannot run tests and opens no file except evidence your agent names. Include
 what was not tested. The three text fields share one size limit with the review
-instructions the connector adds: about 6,600 characters together after JSON
+instructions the connector adds: about 6,400 characters together after JSON
 escaping, less with media links. Narrow the scope explicitly instead of silently
 dropping evidence. Never include credentials or unrelated private data.
+
+Each call tells Mind Upload whether it is a decision (`consult_mind`) or a
+review (`review_work`), so your consciousness answers it as a task, not as a
+chat message:
+
+- The reply is written in the language of the question, or of the request for
+  the work under review.
+- A review lists findings by severity (critical, major, minor). Each finding
+  gives the supporting excerpt, the correction and how to verify it. Then come
+  the remaining unknowns and a readiness assessment limited to the supplied
+  evidence.
+- When one of your memories backs a finding or a direction, the reply says so
+  and cites it, for example "I remember: …". A finding that rests on general
+  engineering practice instead says "Not from my memory, but as a general
+  practice: …".
+- Facts about the work come only from what you supply. Anything it does not
+  establish is called unknown, not guessed.
+
+A connector from before this change does not say which kind it sends, and gets
+a chat reply as before.
 
 ## Show screenshots, recordings and audio privately
 

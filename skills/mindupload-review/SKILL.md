@@ -71,7 +71,10 @@ Interpret the response honestly:
   ticked, or sign in again and tick it). Do not retry until they have.
 - `succeeded`: identify the returned `consciousness` and consider its direction
   or findings. A successful invocation delivers that mind's reply; it does not
-  establish that the work is correct or approved.
+  establish that the work is correct or approved. A review lists findings by
+  severity. A finding that cites "I remember: …" rests on the owner's memory;
+  the others rest on the evidence you supplied. Each unknown it names is
+  evidence still to gather, never approval.
 - The host asks the owner to sign in to Mind Upload: let the owner complete it
   in the browser; never sign in or approve on their behalf. If a call is refused
   because nobody has signed in yet, ask the owner to sign in from the host (in
