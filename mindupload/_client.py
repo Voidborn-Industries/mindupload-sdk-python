@@ -4,6 +4,7 @@ Hand-written and stable; the per-operation methods live in the generated
 `_operations.py`. Built entirely on the standard library.
 """
 import json
+import math
 import socket
 import time
 import urllib.error
@@ -24,6 +25,23 @@ _AUTH_HEADER = "X-Partner-Key"
 # spends credits, create_* mutate), so 5xx / network / timeout failures are
 # surfaced immediately rather than risking a duplicate side effect.
 _RETRY_STATUSES = frozenset({429})
+# The longest server-advised wait a call sleeps through before retrying. A longer
+# wait (the spacing between memory preparations, a daily cap) cannot end within a
+# retry, so the call raises at once with that wait in RateLimitError.retry_after
+# for the caller to schedule.
+_MAX_RETRY_WAIT_SECONDS = 60.0
+
+
+def _retry_after_seconds(headers):
+    """The Retry-After header in seconds, or None when absent or not a finite number."""
+    retry_after = headers.get("Retry-After") if headers is not None else None
+    if not retry_after:
+        return None
+    try:
+        seconds = float(retry_after)
+    except (TypeError, ValueError):
+        return None
+    return seconds if math.isfinite(seconds) else None
 
 
 class Result(dict):
@@ -95,11 +113,13 @@ class _BaseClient:
                     payload = json.loads(raw.decode("utf-8")) if raw else {}
                 except ValueError:
                     payload = {}
-                if status in _RETRY_STATUSES and attempt < self._max_retries:
+                retry_after = _retry_after_seconds(exc.headers)
+                wait_fits_a_retry = retry_after is None or retry_after <= _MAX_RETRY_WAIT_SECONDS
+                if status in _RETRY_STATUSES and attempt < self._max_retries and wait_fits_a_retry:
                     attempt += 1
-                    time.sleep(self._backoff(attempt, exc.headers))
+                    time.sleep(self._backoff(attempt, retry_after))
                     continue
-                self._raise(status, payload, operation, exc.headers)
+                self._raise(status, payload, operation, retry_after)
             except urllib.error.URLError as exc:
                 # Not retried: the request may already have reached the backend.
                 raise MindUploadConnectionError(
@@ -122,27 +142,16 @@ class _BaseClient:
                 )
             return Result(payload)
 
-    def _backoff(self, attempt, headers):
-        if headers is not None:
-            retry_after = headers.get("Retry-After")
-            if retry_after:
-                try:
-                    return min(float(retry_after), 60.0)
-                except (TypeError, ValueError):
-                    pass
+    def _backoff(self, attempt, retry_after):
+        if retry_after is not None:
+            return retry_after
         return min(0.5 * (2 ** (attempt - 1)), 8.0)
 
-    def _raise(self, status, payload, operation, headers):
+    def _raise(self, status, payload, operation, retry_after):
         message = (payload.get("error_message") if isinstance(payload, dict) else None) or ("HTTP " + str(status))
         response = Result(payload if isinstance(payload, dict) else {})
         if status == 401:
             raise AuthenticationError(message, status=status, operation=operation, response=response)
         if status == 429:
-            retry_after = None
-            if headers is not None and headers.get("Retry-After"):
-                try:
-                    retry_after = float(headers.get("Retry-After"))
-                except (TypeError, ValueError):
-                    retry_after = None
             raise RateLimitError(message, status=status, operation=operation, response=response, retry_after=retry_after)
         raise APIError(message, status=status, operation=operation, response=response)

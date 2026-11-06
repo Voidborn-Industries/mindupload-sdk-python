@@ -7,6 +7,7 @@ mapping. No network access.
 import io
 import json
 import socket
+import time
 import unittest
 import urllib.error
 import urllib.request
@@ -296,6 +297,22 @@ class ErrorMappingTest(Base):
         self.assertEqual(ctx.exception.status, 429)
         self.assertEqual(ctx.exception.retry_after, 0.0)
         self.assertEqual(calls["n"], 2)  # 1 try + 1 retry
+
+    def test_429_whose_wait_outlasts_a_retry_raises_at_once(self):
+        calls = {"n": 0}
+
+        def responder():
+            calls["n"] += 1
+            raise urllib.error.HTTPError("https://x/v1/op", 429, "wait", {"Retry-After": "287"}, io.BytesIO(b"{}"))
+
+        self.stub(responder)
+        mu = MindUpload(partner_key="pk", max_retries=2)
+        started = time.monotonic()
+        with self.assertRaises(RateLimitError) as ctx:
+            mu.rag(username="a")
+        self.assertEqual(ctx.exception.retry_after, 287.0)
+        self.assertEqual(calls["n"], 1)
+        self.assertLess(time.monotonic() - started, 1.0)
 
     def test_500_is_api_error_and_not_retried(self):
         calls = {"n": 0}
