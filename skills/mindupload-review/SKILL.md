@@ -7,7 +7,7 @@ Act as an AI meta harness: use the owner's chosen consciousness for direction an
 existing agent performs the work. Preserve the user's scope, permissions, and
 chosen tools; a mind's advice never authorizes an external action.
 
-When to call it: Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. In our staged test, with 4 rules we wrote into its memories to match planted problems, it raised them in 7 of 8 chances (4 rules, 2 runs each). Call it where the owner's
+When to call it: Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. It adds what only you know to your agent's own review; it does not replace it. Call it where the owner's
 priorities, past mistakes or definition of done can change the answer, not for
 checks your own tests settle.
 

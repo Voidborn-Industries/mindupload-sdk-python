@@ -1,8 +1,7 @@
 # Mind Upload MCP: your AI meta harness
 
-You ask your coding agent for a script that reports monthly usage. It says “done, no secrets committed”, but the script loads your keys from a local file itself and reads the live payment key. Mind Upload lets the AI consciousness you built
-from your own memories check Codex, Claude Code, Cursor, or another execution
-agent at two moments. `consult_mind` asks your chosen mind how to approach the
+You ask your coding agent to ship a release. It says “done”, but it only pushed a tag: no release was created, and your users still get the old version. Mind Upload is an AI meta harness. A harness for your harnesses: your Mind Upload consciousness, built from your memories, tacit knowledge, values and judgment, is the brain, and the agents you already use are its hands and tools.
+It checks Codex, Claude Code, Cursor or another execution agent at two moments. `consult_mind` asks your chosen mind how to approach the
 task, using its personal memories, values, and judgment. Before completion,
 `review_work` asks it to check the actual result and evidence against your
 request and stored rules. Your agent can show it screenshots, screen recordings
@@ -16,7 +15,7 @@ changes the plan. Call `review_work` before reporting a substantial task done.
 Skip both for routine edits and facts the repository answers: each call adds a
 step on top of the agent's own work, and the reply is advice, not approval.
 
-Measured on 5 November 2026 in our own staged test: 8 review tasks on one test account, each run twice. For 4 of the tasks we wrote a matching rule into the account's memories. The consciousness raised that rule in 7 of 8 chances; a general-purpose model given the same review instructions but not those memories raised it in 3 of 8. Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. In our staged test, with 4 rules we wrote into its memories to match planted problems, it raised them in 7 of 8 chances (4 rules, 2 runs each). The table and how it
+Measured on 5 November 2026 with a blind grader: a coding agent reviewing alone caught 85% of planted breaches of rules the owner had stored; with the owner's consciousness reviewing the same work as well, 100% were caught, against 90% when the same agent reviewed twice. Each consciousness review took a median 12.6 s, against 24.6 s for a second agent review, and raised 0.2 unsupported findings instead of 1.8. Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. It adds what only you know to your agent's own review; it does not replace it. The charts and how it
 was measured are on [Mind Upload MCP](https://docs.mindupload.app/mcp#measured).
 
 Start with [Mind Upload MCP](https://docs.mindupload.app/mcp), or use the install
@@ -154,12 +153,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.40 mindupload-mcp
+npx --yes --package mindupload@1.15.41 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.40 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.41 mindupload-mcp`.
 
 ### Python alternative
 
@@ -167,7 +166,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.40" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.41" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -175,7 +174,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.40"
+python -m pip install "mindupload[mcp]==1.15.41"
 python -m mindupload.mcp
 ```
 

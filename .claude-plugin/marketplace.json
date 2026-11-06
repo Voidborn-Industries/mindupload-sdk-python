@@ -1,6 +1,6 @@
 {
   "name": "mindupload",
   "owner": {"name": "Mind Upload"},
-  "description": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
+  "description": "Your AI mind directs coding agents; work reviewed against your memories: Claude Code, Codex, Cursor",
   "plugins": [{"name": "mindupload", "source": ".", "category": "productivity", "tags": ["mindupload", "mcp", "ai-meta-harness", "code-review", "ai-code-review", "second-opinion", "personal-memory", "coding-agent"]}]
 }

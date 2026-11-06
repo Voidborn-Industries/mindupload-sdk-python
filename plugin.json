@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mindupload",
-  "version": "1.15.40",
-  "description": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
+  "version": "1.15.41",
+  "description": "Your AI mind directs coding agents; work reviewed against your memories: Claude Code, Codex, Cursor",
   "author": {"name": "Mind Upload"},
   "homepage": "https://docs.mindupload.app/mcp",
   "repository": "https://github.com/Voidborn-Industries/mindupload-sdk-python",

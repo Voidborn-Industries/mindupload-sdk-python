@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Voidborn-Industries/mindupload",
   "title": "Mind Upload AI meta harness",
-  "description": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
-  "version": "1.15.40",
+  "description": "Your AI mind directs coding agents; work reviewed against your memories: Claude Code, Codex, Cursor",
+  "version": "1.15.41",
   "websiteUrl": "https://docs.mindupload.app/mcp",
   "icons": [
     {
@@ -36,7 +36,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "mindupload",
-      "version": "1.15.40",
+      "version": "1.15.41",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -65,7 +65,7 @@
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "mindupload",
-      "version": "1.15.40",
+      "version": "1.15.41",
       "runtimeHint": "uvx",
       "runtimeArguments": [
         {
@@ -76,7 +76,7 @@
         {
           "type": "named",
           "name": "--with",
-          "value": "mindupload[mcp]==1.15.40"
+          "value": "mindupload[mcp]==1.15.41"
         }
       ],
       "transport": {

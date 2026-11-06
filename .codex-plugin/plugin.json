@@ -1,12 +1,12 @@
 {
   "name": "mindupload",
-  "version": "1.15.40",
-  "description": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
+  "version": "1.15.41",
+  "description": "Your AI mind directs coding agents; work reviewed against your memories: Claude Code, Codex, Cursor",
   "keywords": ["mindupload", "mcp", "ai-meta-harness", "code-review", "ai-code-review", "second-opinion", "personal-memory", "coding-agent"],
   "interface": {
     "displayName": "Mind Upload",
-    "shortDescription": "Your coding agent's plan and result, reviewed against your own memories: Claude Code, Codex, Cursor",
-    "longDescription": "Before your coding agent says it is done, Mind Upload lets the AI consciousness you built from your own memories, values and way of thinking check its plan and its result against the rules you stored, and say briefly what is missing or wrong. Your agent keeps the tools and the edits; of your work, the consciousness sees only the text, screenshots and recordings the agent sends it.",
+    "shortDescription": "Your AI mind directs coding agents; work reviewed against your memories: Claude Code, Codex, Cursor",
+    "longDescription": "Mind Upload is an AI meta harness. A harness for your harnesses: your Mind Upload consciousness, built from your memories, tacit knowledge, values and judgment, is the brain, and the agents you already use are its hands and tools. Before the agent says it is done, your consciousness checks its plan and its result against the rules you stored, and says briefly what is missing or wrong. Your agent keeps the tools and the edits; of your work, the consciousness sees only the text, screenshots and recordings the agent sends it.",
     "developerName": "Mind Upload",
     "category": "Productivity",
     "websiteURL": "https://docs.mindupload.app/mcp",
