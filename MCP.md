@@ -30,11 +30,12 @@ Add `https://mcp.mindupload.app/mcp` to your agent, then sign in when it asks:
 1. Your agent opens a Mind Upload page that shows which agent is asking and
    where access will go. Continue only if you just asked your own agent to
    connect.
-2. Mind Upload opens in a new tab. Sign in and approve: your consciousness and
-   every permission start ticked, and you can untick any. Approve only requests
-   you started yourself.
-3. The first tab returns you to your agent. The connection lasts across agent
-   restarts until you sign out, or until it goes unused for 30 days.
+2. Mind Upload opens in the same tab. Sign in and approve: your consciousness
+   and every permission start ticked, and you can untick any. Approve only
+   requests you started yourself.
+3. Approving takes that tab straight back to your agent. The connection lasts
+   across agent restarts until you sign out, or until it goes unused for 30
+   days.
 
 No partner key, account setup or environment variable is needed: the hosted
 server holds the application credential. You need a consciousness in
@@ -52,9 +53,9 @@ claude plugin marketplace add https://github.com/Voidborn-Industries/mindupload-
 claude plugin install mindupload@mindupload
 ```
 
-The plugin adds the hosted server and the review skill. Sign in with
+The plugin adds the hosted server and the Mind Upload skill. Sign in with
 `claude mcp login mindupload`, or open `/mcp`, select **mindupload** and choose
-Authenticate. Run `/mindupload:mindupload-review` to request your mind's
+Authenticate. Run `/mindupload:mindupload` to request your mind's
 direction and final scrutiny. Without the plugin:
 
 ```sh
@@ -100,7 +101,7 @@ Merge this entry into the host's MCP configuration and sign in when it asks:
 Cursor also accepts the portable plugin in this repository; public marketplace
 listing requires a separate review. The [Cursor MCP guide](https://cursor.com/docs/mcp)
 describes server configuration. A configuration entry alone does not install the
-review skill; use the project guidance under [Direct, execute, scrutinize](#direct-execute-scrutinize).
+Mind Upload skill; use the project guidance under [Direct, execute, scrutinize](#direct-execute-scrutinize).
 
 ### VS Code and GitHub Copilot
 
@@ -153,12 +154,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.43 mindupload-mcp
+npx --yes --package mindupload@1.15.44 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.43 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.44 mindupload-mcp`.
 
 ### Python alternative
 
@@ -166,7 +167,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.43" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.44" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -174,7 +175,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.43"
+python -m pip install "mindupload[mcp]==1.15.44"
 python -m mindupload.mcp
 ```
 

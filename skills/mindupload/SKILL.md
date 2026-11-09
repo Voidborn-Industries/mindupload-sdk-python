@@ -1,5 +1,5 @@
 ---
-name: mindupload-review
+name: mindupload
 description: Ask the owner's Mind Upload consciousness, an AI built from their own memories, for direction before a substantial task and for a review of the actual result before saying it is done. Use when the user asks to check with their mind, their consciousness or Mind Upload, wants a second opinion or a review by their own standards, or before reporting a consequential task finished (a release, deploy, migration, deletion, payment or privacy change) where the owner's own rules may apply. Needs the Mind Upload MCP server signed in. Skip it for routine edits and questions the repository answers.
 ---
 
