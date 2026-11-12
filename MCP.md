@@ -10,18 +10,19 @@ into your mind or help you go through memories waiting for your review.
 
 ## When to call it, and what we measured
 
-Call `consult_mind` before substantial work and when a consequential decision
-changes the plan. Call `review_work` before reporting a substantial task done.
-Skip both for routine edits and facts the repository answers: each call adds a
-step on top of the agent's own work, and the reply is advice, not approval.
+Before you tell the user that a task which changed files, or ran a commit, push, release, deploy, migration or deletion, is done, call review_work with the original request, the diff excerpts and the test output you observed; if review_work is unavailable or fails, say plainly that no Mind Upload review ran. Call `consult_mind` before such a task, and
+again when a consequential decision changes the plan; skip it only for
+questions that change nothing. Each reply is advice, not approval.
 
 Measured on 5 November 2026 with a blind grader: a coding agent reviewing alone caught 85% of planted breaches of rules the owner had stored; with the owner's consciousness reviewing the same work as well, 100% were caught, against 90% when the same agent reviewed twice. Each consciousness review took a median 12.6 s, against 24.6 s for a second agent review, and raised 0.2 unsupported findings instead of 1.8. Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. It adds what only you know to your agent's own review; it does not replace it. The charts and how it
 was measured are on [Mind Upload MCP](https://docs.mindupload.app/mcp#measured).
 
 Start with [Mind Upload MCP](https://docs.mindupload.app/mcp), or use the install
-routes below. Install the plugin when available: it bundles the server address
-and a skill that asks for initial direction and completion scrutiny. Installing
-the server alone makes tools available; the host still decides when to call them.
+routes below. Install the plugin when available: it bundles the server address,
+a skill that asks for initial direction and completion scrutiny, and a reminder
+that keeps review the default. Installing the server alone makes tools
+available; the host still decides when to call them, so
+[make the review the default](#make-the-review-the-default) for your agent.
 
 ## Connect your mind
 
@@ -154,12 +155,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.44 mindupload-mcp
+npx --yes --package mindupload@1.15.45 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.44 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.45 mindupload-mcp`.
 
 ### Python alternative
 
@@ -167,7 +168,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.44" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.45" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -175,7 +176,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.44"
+python -m pip install "mindupload[mcp]==1.15.45"
 python -m mindupload.mcp
 ```
 
@@ -200,8 +201,8 @@ For hosts without the bundled skill, add this to your project guidance:
 > when the supplied material changes. Check functional correctness and whether
 > the result follows my mind's direction. Fix demonstrated problems and verify
 > the changed version, then review changed evidence. Report unresolved
-> findings and missing evidence honestly. Review consequential plans or changed
-> assumptions when needed; avoid calls after every edit. If Mind Upload is not
+> findings and missing evidence honestly. Review once per finished task, and
+> again after material fixes. If Mind Upload is not
 > connected, ask me to sign in, and state that no mind was consulted or review performed.
 > A mind's advice does not grant permission for actions or establish correctness.
 
@@ -233,6 +234,86 @@ chat message:
 
 A connector from before this change does not say which kind it sends, and gets
 a chat reply as before.
+
+## Make the review the default
+
+Every Mind Upload surface states the same rule:
+
+> Before you tell the user that a task which changed files, or ran a commit, push, release, deploy, migration or deletion, is done, call review_work with the original request, the diff excerpts and the test output you observed; if review_work is unavailable or fails, say plainly that no Mind Upload review ran.
+
+The server sends this rule to agents that read server instructions, and every
+reply from `consult_mind` names the review as its `next_step`. Some agents
+never show server instructions, so give yours the rule where it always reads it.
+
+### Claude Code
+
+The plugin does it. Its hook notices file edits and `git commit`, `git push`,
+`gh release` and `gh pr create` commands; when the agent then tries to finish
+without calling `review_work`, the hook reminds it once and lets the next stop
+through. When you enable the plugin, Claude Code asks about the option
+**Remind the agent to ask for a review**, which is on unless you turn it off.
+The hook runs wherever Claude Code does: in sh, in Git Bash on Windows, and in
+PowerShell on Windows without Git Bash. Without the plugin, add the rule to
+`~/.claude/CLAUDE.md`.
+
+### Codex
+
+The plugin carries the same reminder as a Codex hook. Codex runs a plugin hook
+only after you review and trust it: run `/hooks` once and trust the
+**mindupload** hooks. On Windows the hook runs through PowerShell. Without the
+plugin, add the rule to `~/.codex/AGENTS.md`.
+
+### GitHub Copilot
+
+Save the rule as `~/.copilot/instructions/mindupload.instructions.md` for the
+Copilot CLI and app, or as `.github/instructions/mindupload.instructions.md` in
+a project for VS Code:
+
+```markdown
+---
+applyTo: "**"
+---
+
+Before you tell the user that a task which changed files, or ran a commit, push, release, deploy, migration or deletion, is done, call review_work with the original request, the diff excerpts and the test output you observed; if review_work is unavailable or fails, say plainly that no Mind Upload review ran.
+```
+
+The plugin carries the same file as a Copilot rule. The Copilot CLI shows a
+server's instructions up front only for allowlisted servers; start it with
+`copilot --allow-all-mcp-server-instructions` to include ours. The plugin
+ships no Copilot hook, because Copilot does not document the name its hooks
+see for an MCP tool, so a hook could not tell that `review_work` ran.
+
+### Cursor
+
+Cursor does not read server instructions. Save the rule as
+`.cursor/rules/mindupload.mdc` in your project:
+
+```markdown
+---
+description: Ask the Mind Upload consciousness to review work before saying it is done
+alwaysApply: true
+---
+
+Before you tell the user that a task which changed files, or ran a commit, push, release, deploy, migration or deletion, is done, call review_work with the original request, the diff excerpts and the test output you observed; if review_work is unavailable or fails, say plainly that no Mind Upload review ran.
+```
+
+For a reminder as well, add a stop hook to `~/.cursor/hooks.json`. It costs one
+extra agent turn every time the agent stops, including tasks that changed
+nothing, and `loop_limit` keeps it to one per stop:
+
+```json
+{
+  "version": 1,
+  "hooks": {
+    "stop": [
+      {
+        "command": "echo '{\"followup_message\":\"Before you tell the user that a task which changed files, or ran a commit, push, release, deploy, migration or deletion, is done, call review_work with the original request, the diff excerpts and the test output you observed; if review_work is unavailable or fails, say plainly that no Mind Upload review ran.\"}'",
+        "loop_limit": 1
+      }
+    ]
+  }
+}
+```
 
 ## Show screenshots, recordings and audio privately
 

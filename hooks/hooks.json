@@ -1,0 +1,118 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git commit *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "if": "Bash(git push *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "if": "Bash(gh release *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "if": "Bash(gh pr create *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "PowerShell(git commit *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "if": "PowerShell(git push *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "if": "PowerShell(gh release *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "if": "PowerShell(gh pr create *)",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude mark\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action mark",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "^mcp__.*mindupload.*__review_work$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude clear\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action clear",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "^mcp__.*mindupload.*__review_work$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude clear\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action clear",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude stop\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action stop",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nsh \"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.sh\" claude end\nexit\n#> > $null\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${CLAUDE_PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName claude -Action end",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

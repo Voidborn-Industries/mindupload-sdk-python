@@ -1,17 +1,19 @@
 ---
 name: mindupload
-description: Ask the owner's Mind Upload consciousness, an AI built from their own memories, for direction before a substantial task and for a review of the actual result before saying it is done. Use when the user asks to check with their mind, their consciousness or Mind Upload, wants a second opinion or a review by their own standards, or before reporting a consequential task finished (a release, deploy, migration, deletion, payment or privacy change) where the owner's own rules may apply. Needs the Mind Upload MCP server signed in. Skip it for routine edits and questions the repository answers.
+description: Ask the owner's Mind Upload consciousness, an AI built from their own memories, for direction before starting a task that will change files or ship something, and for a review of the actual result before saying it is done. Use it by default before reporting any task finished that changed files or ran a commit, push, release, deploy, migration or deletion, and whenever the user asks to check with their mind, their consciousness or Mind Upload, or wants a second opinion or a review by their own standards. Needs the Mind Upload MCP server signed in; when it is unavailable, say plainly that no Mind Upload review ran.
 ---
+
+Before you tell the user that a task which changed files, or ran a commit, push, release, deploy, migration or deletion, is done, call review_work with the original request, the diff excerpts and the test output you observed; if review_work is unavailable or fails, say plainly that no Mind Upload review ran.
 
 Act as an AI meta harness: use the owner's chosen consciousness for direction and scrutiny while the
 existing agent performs the work. Preserve the user's scope, permissions, and
 chosen tools; a mind's advice never authorizes an external action.
 
-When to call it: Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. It adds what only you know to your agent's own review; it does not replace it. Call it where the owner's
-priorities, past mistakes or definition of done can change the answer, not for
-checks your own tests settle.
+Why it is the default: Call it for the rules and past lessons you keep in Mind Upload and not in your agent's instruction files. It adds what only you know to your agent's own review; it does not replace it. The owner's priorities, past
+mistakes and definition of done can change the answer even when your own tests
+pass.
 
-Before substantial execution, call `consult_mind` with the original goal,
+Before a task that will change files or ship something, call `consult_mind` with the original goal,
 constraints, relevant options, and proposed approach. Ask what matters to this
 person, which tradeoffs fit their values and memories, and what would make the
 result unacceptable. Do not assume those priorities before asking the mind.
@@ -43,8 +45,7 @@ sent to Mind Upload.
 
 Use `phase="completion"` before final success claims. Use `plan` for consequential
 unresolved design choices and `progress` when new evidence changes a risky
-assumption. Prefer one focused review at a meaningful checkpoint; do not call
-after every edit. Keep one `task_id` for the task and one `review_id` per version
+assumption. Review once per finished task, and again after material fixes. Keep one `task_id` for the task and one `review_id` per version
 of the supplied material. Retry an unfinished call with identical arguments;
 changed work or evidence requires a new `review_id`.
 

@@ -1,0 +1,52 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${PLUGIN_ROOT}/hooks/review_gate.sh\" codex mark",
+            "commandWindows": "set ReadByCmdOnly =' & powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%PLUGIN_ROOT%/hooks/review_gate.ps1\" -HostName codex -Action mark & exit '\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName codex -Action mark",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "^mcp__.*mindupload.*__review_work$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${PLUGIN_ROOT}/hooks/review_gate.sh\" codex clear",
+            "commandWindows": "set ReadByCmdOnly =' & powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%PLUGIN_ROOT%/hooks/review_gate.ps1\" -HostName codex -Action clear & exit '\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName codex -Action clear",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${PLUGIN_ROOT}/hooks/review_gate.sh\" codex stop",
+            "commandWindows": "set ReadByCmdOnly =' & powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%PLUGIN_ROOT%/hooks/review_gate.ps1\" -HostName codex -Action stop & exit '\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName codex -Action stop",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${PLUGIN_ROOT}/hooks/review_gate.sh\" codex end",
+            "commandWindows": "set ReadByCmdOnly =' & powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"%PLUGIN_ROOT%/hooks/review_gate.ps1\" -HostName codex -Action end & exit '\n& ([scriptblock]::Create([IO.File]::ReadAllText(\"${PLUGIN_ROOT}/hooks/review_gate.ps1\"))) -HostName codex -Action end",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
