@@ -1,7 +1,7 @@
 {
   "name": "mindupload",
   "displayName": "Mind Upload",
-  "version": "1.15.45",
+  "version": "1.15.46",
   "description": "Your AI mind directs coding agents; work reviewed against your memories: Claude Code, Codex, Cursor",
   "author": {"name": "Mind Upload"},
   "homepage": "https://docs.mindupload.app/mcp",

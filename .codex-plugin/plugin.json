@@ -1,6 +1,6 @@
 {
   "name": "mindupload",
-  "version": "1.15.45",
+  "version": "1.15.46",
   "description": "Your AI mind directs coding agents; work reviewed against your memories: Claude Code, Codex, Cursor",
   "keywords": ["mindupload", "mcp", "ai-meta-harness", "code-review", "ai-code-review", "second-opinion", "personal-memory", "coding-agent"],
   "hooks": "./hooks/codex-hooks.json",
