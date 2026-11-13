@@ -155,12 +155,12 @@ expose the same tools and owner consent flow. With
 [Node.js](https://nodejs.org/en/download) installed, the pinned launch command is:
 
 ```sh
-npx --yes --package mindupload@1.15.46 mindupload-mcp
+npx --yes --package mindupload@1.15.47 mindupload-mcp
 ```
 
 The server speaks MCP over standard input and output; add it to your host as a
 command-based server instead of typing into that terminal. For example,
-`codex mcp add mindupload -- npx --yes --package mindupload@1.15.46 mindupload-mcp`.
+`codex mcp add mindupload -- npx --yes --package mindupload@1.15.47 mindupload-mcp`.
 
 ### Python alternative
 
@@ -168,7 +168,7 @@ If you prefer the Python server, [uv](https://docs.astral.sh/uv/getting-started/
 can install it and obtain a compatible interpreter:
 
 ```sh
-uvx --python ">=3.11" --from "mindupload[mcp]==1.15.46" mindupload-mcp
+uvx --python ">=3.11" --from "mindupload[mcp]==1.15.47" mindupload-mcp
 ```
 
 Use `uvx` and the arguments above in place of the Node command in your host.
@@ -176,7 +176,7 @@ Use `uvx` and the arguments above in place of the Node command in your host.
 ### Existing Python installation
 
 ```sh
-python -m pip install "mindupload[mcp]==1.15.46"
+python -m pip install "mindupload[mcp]==1.15.47"
 python -m mindupload.mcp
 ```
 
